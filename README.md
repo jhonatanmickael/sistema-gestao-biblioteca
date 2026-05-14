@@ -1,3 +1,12 @@
+# 📚 Sistema de Gestão de Biblioteca
+
+Sistema desenvolvido em linguagem C para o projeto final da disciplina de Programação 1 da UFAL.
+
+---
+
+# 📁 Estrutura do Projeto
+
+```text
 biblioteca-programacao1/
 │
 ├── src/
@@ -27,28 +36,93 @@ biblioteca-programacao1/
 │
 ├── README.md
 └── .gitignore
+```
 
+---
 
-#BRANCHS
+# 🌿 Branches
 
+```text
 main
 feature-menu
 feature-livros
 feature-usuarios
 feature-emprestimos
 feature-relatorios
+```
 
-#COMANDOS_GIT
+---
 
+# 🔧 Comandos Git
+
+## Verificar status
+
+```bash
 git status
-git clone
-git pull
+```
+
+## Clonar repositório
+
+```bash
+git clone URL_DO_REPOSITORIO
+```
+
+## Atualizar projeto
+
+```bash
+git pull origin main
+```
+
+## Enviar alterações
+
+```bash
 git push
-git add
-git commit
-git checkout
+```
+
+## Adicionar arquivos
+
+```bash
+git add .
+```
+
+## Criar commit
+
+```bash
+git commit -m "Mensagem do commit"
+```
+
+## Trocar de branch
+
+```bash
+git checkout nome-da-branch
+```
+
+## Ver branches
+
+```bash
 git branch
-git merge
+```
+
+## Juntar branches
+
+```bash
+git merge nome-da-branch
+```
+
+## Baixar informações do GitHub
+
+```bash
 git fetch
+```
+
+## Ver diferenças no código
+
+```bash
 git diff
+```
+
+## Ver histórico de commits
+
+```bash
 git log
+```
