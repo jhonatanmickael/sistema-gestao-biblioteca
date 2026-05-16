@@ -45,4 +45,36 @@ void listagem () {
         printf("Username: %s\n", armazenar[i].username);
 
     }
+<<<<<<< HEAD
 }
+=======
+}
+
+int login() {
+    char user_digitado[50];
+    char senha_digitada[50];
+
+    printf("\n--- TELA DE LOGIN ---\n");
+)
+    setbuf(stdin, NULL);
+
+    printf("Username: ");
+    fgets(user_digitado, 50, stdin);
+    user_digitado[strcspn(user_digitado, "\n")] = '\0';
+
+    printf("Senha: ");
+    fgets(senha_digitada, 50, stdin);
+    senha_digitada[strcspn(senha_digitada, "\n")] = '\0';
+
+    for (int i = 0; i < totalusuarios; i++) {
+        if (strcmp(armazenar[i].username, user_digitado) == 0 &&
+            strcmp(armazenar[i].password, senha_digitada) == 0) {
+
+            printf("\nBem-vindo de volta, %s!\n", armazenar[i].name);
+            return 1; // Se retornar 1 ent ele fez o login
+        }
+    }
+    printf("\n[!] Erro: Username ou senha incorretos.\n");
+    return 0; // N conseguiu fzr o login
+}
+>>>>>>> origin/main

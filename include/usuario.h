@@ -10,4 +10,11 @@ typedef struct {
     int active;
 }Usuario;
 
+<<<<<<< HEAD
+=======
+int cadastro();
+void listagem();
+int login();
+
+>>>>>>> origin/main
 #endif
