@@ -18,6 +18,8 @@ typedef struct {
 
 }Usuario;
 
+
+// Definindo as funções
 void menu_sistema();
 
 void inicializar_sistema();
@@ -30,6 +32,8 @@ int login();
 
 int validar_username(char *username2);
 
+
+// Transformando em variaveis globais
 extern Usuario usuario_logado;
 
 extern Usuario armazenar[100];

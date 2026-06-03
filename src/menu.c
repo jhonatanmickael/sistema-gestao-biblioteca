@@ -3,6 +3,7 @@
 #include <string.h>
 #include "usuario.h"
 
+// Menu incial de login/cadastro
 void menu_inicial () {
     int select = 0;
 

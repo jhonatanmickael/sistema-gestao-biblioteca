@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "livro.h"
 
 Usuario armazenar[100];
 Usuario usuario_logado;
@@ -106,6 +107,10 @@ int login() {
     for (int i = 0; i < totalusuarios; i++) {
         if (strcmp(armazenar[i].username, user_digitado) == 0 &&
             strcmp(armazenar[i].password, senha_digitada) == 0) {
+
+            // Salva a conta encontrada na sessão global ativa (Corrige o lixo de memória)
+            usuario_logado = armazenar[i]; 
+
             system("clear");
             printf("\n");
             printf("  01110   01110   111  001     01   01  01  01110   01110   011100\n");
@@ -130,6 +135,8 @@ int login() {
     return 0; // N conseguiu fzr o login
 }
 
+
+// Menu principal do sistema
 void menu_sistema() {
     int opcao = 0;
 
@@ -176,7 +183,7 @@ void menu_sistema() {
             break; // Sai do loop e volta pra a tela de login/cadastro
         }
         else if (opcao == 1) {
-            // listar livros;
+            listar_livros();
         }
         else if (opcao == 2) {
             // buscar livro;
@@ -184,7 +191,7 @@ void menu_sistema() {
 
         // Opções de admin
         else if (opcao == 3 && usuario_logado.type == 1) {
-            // cadastrar livro;
+            cadastrar_livro();
         }
         else if (opcao == 4 && usuario_logado.type == 1) {
             system("clear");
@@ -199,18 +206,29 @@ void menu_sistema() {
     }
 }
 
-// Essa função não esta em uso por enquanto
+// Função para listar todos os livros
 void listagem () {
-    if (totalusuarios == 0) {
-        printf("Nao ha usuarios cadastrados");
+    system("clear");
+    printf("=====================================================\n");
+    printf("                LISTA DE UTILIZADORES                \n");
+    printf("=====================================================\n");
 
-        return;
+    if (totalusuarios == 0) {
+        printf("\n[!] Não há utilizadores cadastrados no sistema. [!]\n");
+    } else {
+        printf("%-4s | %-25s | %-15s\n", "ID", "NOME", "USERNAME");
+        printf("-----------------------------------------------------\n");
+        for (int i = 0; i < totalusuarios; i++) {
+            printf("%-04d | %-25.25s | %-15.15s\n",
+                   armazenar[i].id,
+                   armazenar[i].name,
+                   armazenar[i].username);
+        }
     }
-    for (int i = 0; i < totalusuarios; i++) {
-        printf("Usuarios: %d\n", i+1);
-        printf("Nome: %s\n", armazenar[i].name);
-        printf("Username: %s\n", armazenar[i].username);
-    }
+    printf("=====================================================\n");
+
+    printf("\nPressione [ENTER] para voltar ao menu...");
+    getchar();
 }
 
 // Verifica se um username ja existe
