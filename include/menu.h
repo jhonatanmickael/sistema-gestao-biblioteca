@@ -3,5 +3,6 @@
 
 // Definindo as funções
 void menu_inicial();
+void menu_sistema();
 
 #endif

@@ -125,3 +125,105 @@ void cadastrar_livro() {
     printf("\nPressione [ENTER] para continuar...");
     getchar();
 }
+
+// Função feita para buscar livro pelo id ou nome
+
+void buscar_livro() {
+    int tipo_busca = 0;
+
+    system("clear");
+    printf("=======================================\n");
+    printf("           BUSCA DE LIVROS             \n");
+    printf("=======================================\n");
+    printf("Como deseja buscar o livro?\n");
+    printf("1. Buscar por ID (Exata)\n");
+    printf("2. Buscar por Título (Nome)\n");
+    printf("-> ");
+
+// Seletor para escolher se vai buscar por id ou nome
+    if (scanf("%d", &tipo_busca) != 1) {
+        while (getchar() != '\n');
+        system("clear");
+        printf("[!] Entrada inválida! Digite apenas números. [!]\n");
+        printf("\nPressione [ENTER] para voltar...");
+        getchar();
+        return;
+    }
+    while (getchar() != '\n'); // Limpa o buffer
+
+    if (tipo_busca == 1) {
+        // --- BUSCA POR ID ---
+        int id_busca = 0;
+        system("clear");
+        printf("---- BUSCA POR ID ----\n");
+        printf("Digite o ID do livro:\n-> ");
+        if (scanf("%d", &id_busca) != 1) {
+            while (getchar() != '\n');
+            printf("\n[!] ID inválido! [!]\n");
+            printf("\nPressione [ENTER] para voltar...");
+            getchar();
+            return;
+        }
+        while (getchar() != '\n'); // Limpa o buffer
+
+        system("clear");
+        printf("=================================================================================\n");
+        printf("                               RESULTADO DA BUSCA                                \n");
+        printf("=================================================================================\n");
+        printf("%-4s | %-28s | %-25s | %-5s\n", "ID", "TÍTULO", "AUTOR", "QTD");
+        printf("---------------------------------------------------------------------------------\n");
+
+        int encontrado = 0;
+        for (int i = 0; i < totallivros; i++) {
+            if (acervo[i].id == id_busca && acervo[i].active == 1) {
+                printf("%-04d | %-28.28s | %-25.25s | %-5d\n",
+                       acervo[i].id, acervo[i].titulo, acervo[i].autor, acervo[i].quantidade);
+                encontrado = 1;
+                break;
+            }
+        }
+
+        if (!encontrado) {
+            printf("\n[!] Nenhum livro ativo encontrado com o ID %d. [!]\n", id_busca);
+        }
+        printf("---------------------------------------------------------------------------------\n");
+
+    } else if (tipo_busca == 2) {
+        // --- BUSCA POR NOME ---
+        char termo_busca[100];
+        system("clear");
+        printf("---- BUSCA POR TÍTULO ----\n");
+        printf("Digite o termo ou nome do livro:\n-> ");
+        fgets(termo_busca, sizeof(termo_busca), stdin);
+        termo_busca[strcspn(termo_busca, "\n")] = '\0';
+
+        //Resultado da busca
+        system("clear");
+        printf("=================================================================================\n");
+        printf("                               RESULTADO DA BUSCA                                \n");
+        printf("=================================================================================\n");
+        printf("%-4s | %-28s | %-25s | %-5s\n", "ID", "TÍTULO", "AUTOR", "QTD");
+        printf("---------------------------------------------------------------------------------\n");
+
+        int encontrados = 0;
+        for (int i = 0; i < totallivros; i++) {
+            // strstr verifica se termo_busca está contido no título do livro
+            if (acervo[i].active == 1 && strstr(acervo[i].titulo, termo_busca) != NULL) {
+                printf("%-04d | %-28.28s | %-25.25s | %-5d\n", 
+                       acervo[i].id, acervo[i].titulo, acervo[i].autor, acervo[i].quantidade);
+                encontrados++;
+            }
+        }
+
+        if (encontrados == 0) {
+            printf("\n[!] Nenhum livro encontrado com o termo '%s'. [!]\n", termo_busca);
+        }
+        printf("---------------------------------------------------------------------------------\n");
+
+    } else {
+        printf("\n[!] Opção de busca inválida! [!]\n");
+    }
+
+    printf("\nPressione [ENTER] para voltar ao menu...");
+    getchar();
+}

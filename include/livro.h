@@ -19,5 +19,6 @@ extern int totallivros;
 void inicializar_livros();
 void listar_livros();
 void cadastrar_livro();
+void buscar_livro();
 
 #endif

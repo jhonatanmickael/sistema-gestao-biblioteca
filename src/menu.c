@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "usuario.h"
+#include "menu.h"
+#include "livro.h"
 
 // Menu incial de login/cadastro
 void menu_inicial () {
@@ -59,3 +61,72 @@ void menu_inicial () {
     }
 }
 
+// Menu principal do sistema
+void menu_sistema() {
+    int opcao = 0;
+
+    while (1) {
+        system("clear");
+        printf("====================================\n");
+        printf("        SISTEMA DA BIBLIOTECA       \n");
+        printf("====================================\n");
+        // Exibe o nome de quem logou e o nível de acesso baseado no type
+        printf("Usuário: %s | Acesso: %s\n",  
+                usuario_logado.name,  
+                (usuario_logado.type == 1) ? "Administrador" : "Comum");
+        printf("------------------------------------\n");
+
+        // Opções de menu
+        printf("1. Listar Livros Disponíveis\n");
+        printf("2. Buscar Livro\n");
+
+        // Bloqueio de Segurança: Só mostra se for o ROOT/ADMIN
+        if (usuario_logado.type == 1) {
+            printf("3. [ADM] Cadastrar Novo Livro\n");
+            printf("4. [ADM] Listar Todos os Utilizadores\n");
+        }
+
+        printf("0. Fazer Logout (Sair)\n");
+        printf("------------------------------------\n-> ");
+
+        // Ler e verifica se foi um numero inteiro
+        if (scanf("%d", &opcao) != 1) {
+            while (getchar() != '\n'); // Limpa buffer
+            system("clear");
+            printf("[!] Digite apenas números! [!]\nPressione [ENTER]...");
+            getchar();
+            continue;
+        }
+        while (getchar() != '\n'); // Limpa o buffer
+
+        // Processamento das opções do menu
+        if (opcao == 0) {
+            system("clear");
+            printf("A encerrar a sessão de %s...\n", usuario_logado.name);
+            printf("Pressione [ENTER] para voltar ao menu inicial...");
+            getchar();
+            break; // Sai do loop e volta pra a tela de login/cadastro
+        }
+        else if (opcao == 1) {
+            listar_livros();
+        }
+        else if (opcao == 2) {
+            buscar_livro();
+        }
+
+        // Opções de admin
+        else if (opcao == 3 && usuario_logado.type == 1) {
+            cadastrar_livro();
+        }
+        else if (opcao == 4 && usuario_logado.type == 1) {
+            system("clear");
+            listagem();
+        }
+
+        else {
+            system("clear");
+            printf("[!] Opção Inválida! [!]\nPressione [ENTER] para tentar novamente...");
+            getchar();
+        }
+    }
+}
