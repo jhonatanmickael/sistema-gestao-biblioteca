@@ -4,6 +4,7 @@
 #include "emprestimo.h"
 #include "usuario.h"
 #include "livro.h"
+#include "relatorios.h"
 
 // Inicializando as variáveis globais
 Emprestimo controle_emprestimos[100];
@@ -155,7 +156,7 @@ void solicitar_emprestimo() {
     } else {
         // Registra os dados do empréstimo ativo
         controle_emprestimos[totalemprestimos].id_emprestimo = totalemprestimos + 1;
-        controle_emprestimos[totalemprestimos].id_usuario = usuario_logado.id;
+        controle_emprestimos[totalemprestimos].id_usuario = usuario_logado->id;
         controle_emprestimos[totalemprestimos].id_livro = acervo[livro_index].id;
         controle_emprestimos[totalemprestimos].status = 1; // 1 significa Ativo
 
@@ -164,6 +165,10 @@ void solicitar_emprestimo() {
         totalemprestimos++;
 
         printf("\n[+] Empréstimo do livro '%s' realizado com sucesso! [+]\n", acervo[livro_index].titulo);
+        char evento[100];
+        sprintf(evento, "O usuario %s pegou o livro %s emprestado!", usuario_logado->name, acervo[livro_index].titulo);
+        data_log(evento);
+
     }
 
     printf("\nPressione [ENTER] para continuar...");
@@ -193,7 +198,7 @@ void devolver_livro() {
     for (int i = 0; i < totalemprestimos; i++) {
         // O empréstimo precisa ser do livro digitado, pertencer ao usuário logado e estar ativo (status == 1)
         if (controle_emprestimos[i].id_livro == id_livro_dev && 
-            controle_emprestimos[i].id_usuario == usuario_logado.id && 
+            controle_emprestimos[i].id_usuario == usuario_logado->id &&
             controle_emprestimos[i].status == 1) {
             
             // Finaliza o empréstimo (muda status para 0/Devolvido)
@@ -204,6 +209,9 @@ void devolver_livro() {
                 if (acervo[j].id == id_livro_dev) {
                     acervo[j].quantidade++;
                     printf("\n[+] Livro '%s' devolvido com sucesso! [+]\n", acervo[j].titulo);
+                    char evento [100];
+                    sprintf(evento, "O livro %s foi devolvido pelo usuario %s!", acervo[j].titulo, usuario_logado->name);
+                    data_log(evento);
                     break;
                 }
             }

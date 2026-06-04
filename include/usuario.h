@@ -21,7 +21,7 @@ int validar_username(char *username2);
 
 
 // Transformando em variaveis globais
-extern Usuario usuario_logado;
+extern Usuario *usuario_logado;
 extern Usuario armazenar[100];
 extern int totalusuarios;
 

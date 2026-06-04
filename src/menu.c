@@ -73,16 +73,16 @@ void menu_sistema() {
         printf("====================================\n");
         // Exibe o nome de quem logou e o nível de acesso baseado no type
         printf("Usuário: %s | Acesso: %s\n",  
-                usuario_logado.name,  
-                (usuario_logado.type == 1) ? "Administrador" : "Comum");
+                usuario_logado->name,
+                (usuario_logado->type == 1) ? "Administrador" : "Comum");
         printf("------------------------------------\n");
 
         // Opções de menu
         printf("1. Listar Livros Disponíveis\n2. Buscar Lívro\n3. Pegar Lívro Emprestado\n4. Devolver Livro\n");
 
         // Bloqueio de Segurança: Só mostra se for o ROOT/ADMIN
-        if (usuario_logado.type == 1) {
-            printf("5. [ADM] Cadastrar Novo Livro\n6. [ADM] Listar Todos os Utilizadores\n");
+        if (usuario_logado->type == 1) {
+            printf("5. [ADM] Cadastrar Novo Livro\n6. [ADM] Listar Todos os Utilizadores\n7. [ADM] Logs\n");
         }
 
         printf("0. Fazer Logout (Sair)\n");
@@ -101,7 +101,7 @@ void menu_sistema() {
         // Processamento das opções do menu
         if (opcao == 0) {
             system("clear");
-            printf("A encerrar a sessão de %s...\n", usuario_logado.name);
+            printf("A encerrar a sessão de %s...\n", usuario_logado->name);
             printf("Pressione [ENTER] para voltar ao menu inicial...");
             getchar();
             break; // Sai do loop e volta pra a tela de login/cadastro
@@ -118,12 +118,15 @@ void menu_sistema() {
         else if (opcao == 4) {
             devolver_livro();
         }
-        else if (opcao == 5 && usuario_logado.type == 1) {
+        else if (opcao == 5 && usuario_logado->type == 1) {
             cadastrar_livro();
         }
-        else if (opcao == 6 && usuario_logado.type == 1) {
+        else if (opcao == 6 && usuario_logado->type == 1) {
             system("clear");
             listagem();
+        }
+        else if (opcao == 7 && usuario_logado->type == 1) {
+
         }
 
         else {

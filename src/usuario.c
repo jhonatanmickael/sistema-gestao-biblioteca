@@ -5,8 +5,9 @@
 #include "livro.h"
 #include "relatorios.h"
 
+
 Usuario armazenar[100];
-Usuario usuario_logado;
+Usuario *usuario_logado = NULL;
 
 int totalusuarios = 0;
 
@@ -115,8 +116,10 @@ int login() {
         if (strcmp(armazenar[i].username, user_digitado) == 0 &&
             strcmp(armazenar[i].password, senha_digitada) == 0) {
 
+            usuario_logado = &armazenar[i];
+
             // Salva a conta encontrada na sessão global ativa (Corrige o lixo de memória)
-            usuario_logado = armazenar[i]; 
+
 
             char evento[100];
             sprintf(evento, "O usuario %s fez login", armazenar[i].username);

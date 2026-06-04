@@ -58,3 +58,6 @@ bin/
 obj/
 *.layout
 *.depend
+
+.agents
+.codex
