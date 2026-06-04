@@ -4,6 +4,7 @@
 #include "usuario.h"
 #include "menu.h"
 #include "livro.h"
+#include "emprestimo.h"
 
 // Menu incial de login/cadastro
 void menu_inicial () {
@@ -77,13 +78,11 @@ void menu_sistema() {
         printf("------------------------------------\n");
 
         // Opções de menu
-        printf("1. Listar Livros Disponíveis\n");
-        printf("2. Buscar Livro\n");
+        printf("1. Listar Livros Disponíveis\n2. Buscar Lívro\n3. Pegar Lívro Emprestado\n4. Devolver Livro\n");
 
         // Bloqueio de Segurança: Só mostra se for o ROOT/ADMIN
         if (usuario_logado.type == 1) {
-            printf("3. [ADM] Cadastrar Novo Livro\n");
-            printf("4. [ADM] Listar Todos os Utilizadores\n");
+            printf("5. [ADM] Cadastrar Novo Livro\n6. [ADM] Listar Todos os Utilizadores\n");
         }
 
         printf("0. Fazer Logout (Sair)\n");
@@ -113,12 +112,16 @@ void menu_sistema() {
         else if (opcao == 2) {
             buscar_livro();
         }
-
-        // Opções de admin
-        else if (opcao == 3 && usuario_logado.type == 1) {
+        else if (opcao == 3) {
+            solicitar_emprestimo();
+        }
+        else if (opcao == 4) {
+            devolver_livro();
+        }
+        else if (opcao == 5 && usuario_logado.type == 1) {
             cadastrar_livro();
         }
-        else if (opcao == 4 && usuario_logado.type == 1) {
+        else if (opcao == 6 && usuario_logado.type == 1) {
             system("clear");
             listagem();
         }

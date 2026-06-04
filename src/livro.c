@@ -127,7 +127,6 @@ void cadastrar_livro() {
 }
 
 // Função feita para buscar livro pelo id ou nome
-
 void buscar_livro() {
     int tipo_busca = 0;
 
@@ -142,7 +141,7 @@ void buscar_livro() {
 
 // Seletor para escolher se vai buscar por id ou nome
     if (scanf("%d", &tipo_busca) != 1) {
-        while (getchar() != '\n');
+        while (getchar() != '\n'); // Limpa o buffer
         system("clear");
         printf("[!] Entrada inválida! Digite apenas números. [!]\n");
         printf("\nPressione [ENTER] para voltar...");
@@ -207,7 +206,7 @@ void buscar_livro() {
 
         int encontrados = 0;
         for (int i = 0; i < totallivros; i++) {
-            // strstr verifica se termo_busca está contido no título do livro
+            // strstr verifica se termo_busca é o titulo do livro
             if (acervo[i].active == 1 && strstr(acervo[i].titulo, termo_busca) != NULL) {
                 printf("%-04d | %-28.28s | %-25.25s | %-5d\n", 
                        acervo[i].id, acervo[i].titulo, acervo[i].autor, acervo[i].quantidade);
