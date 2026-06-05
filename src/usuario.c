@@ -128,10 +128,6 @@ int login() {
             sprintf(evento, "O usuario %s fez login", armazenar[i].username);
             data_log(evento);
 
-            char evento[100];
-            sprintf(evento, "O usuario %s fez login", armazenar[i].username);
-            data_log(evento);
-
             system("clear");
             printf("\n");
             printf("  01110   01110   111  001     01   01  01  01110   01110   011100\n");
