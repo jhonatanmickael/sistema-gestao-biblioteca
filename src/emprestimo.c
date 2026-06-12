@@ -6,6 +6,9 @@
 #include "livro.h"
 #include "relatorios.h"
 
+
+int armazenar_livros();
+
 // Inicializando as variáveis globais
 Emprestimo controle_emprestimos[100];
 int totalemprestimos = 0;
@@ -28,7 +31,7 @@ void solicitar_emprestimo() {
         while (getchar() != '\n');
         system("clear");
         printf("[!] Entrada inválida! Digite apenas números. [!]\n");
-        printf("\nPressione [ENTER] para voltar...");
+        printf("\nPressione [ENTER] para voltar...\n");
         getchar();
         return;
     }
@@ -37,16 +40,16 @@ void solicitar_emprestimo() {
     int livro_index = -1;
 
     if (tipo_busca == 1) {
-        // --- SELEÇÃO POR ID ---
+        // Seleção por ID
         int id_busca = 0;
         system("clear");
         printf("---- SOLICITAR POR ID ----\n");
         printf("Digite o ID do livro que deseja:\n-> ");
         // Le a opção inserida e ja verifica se foi inserido um numero inteiro
-	if (scanf("%d", &id_busca) != 1) {
+    if (scanf("%d", &id_busca) != 1) {
             while (getchar() != '\n'); // limpa o buffer
             printf("\n[!] ID inválido! [!]\n");
-            printf("\nPressione [ENTER] para voltar...");
+            printf("\nPressione [ENTER] para voltar...\n");
             getchar();
             return;
         }
@@ -62,19 +65,19 @@ void solicitar_emprestimo() {
 
         if (livro_index == -1) {
             printf("\n[!] Livro não encontrado ou inativo no sistema! [!]\n");
-            printf("\nPressione [ENTER] para voltar...");
+            printf("\nPressione [ENTER] para voltar...\n");
             getchar();
             return;
         }
 
     } else if (tipo_busca == 2) {
-        // --- SELEÇÃO POR NOME ---
+        // Seleção pelo Nome
         char termo_busca[100];
         system("clear");
         printf("---- SOLICITAR POR TÍTULO ----\n");
         printf("Digite o nome ou parte do título do livro:\n-> ");
         // Pega o nome do livro e ja limpa o ultimo caracter '\n'
-	fgets(termo_busca, sizeof(termo_busca), stdin);
+        fgets(termo_busca, sizeof(termo_busca), stdin);
         termo_busca[strcspn(termo_busca, "\n")] = '\0';
 
         // Vetor dinâmico local para guardar os índices dos livros encontrados
@@ -90,7 +93,7 @@ void solicitar_emprestimo() {
 
         if (qtd_encontrados == 0) {
             printf("\n[!] Nenhum livro ativo encontrado com o termo '%s'. [!]\n", termo_busca);
-            printf("\nPressione [ENTER] para voltar...");
+            printf("\nPressione [ENTER] para voltar...\n");
             getchar();
             return;
         } 
@@ -115,12 +118,12 @@ void solicitar_emprestimo() {
             printf("-------------------------------------------------------------------\n");
             printf("Digite o ID do livro que deseja pegar emprestado:\n-> ");
             
-	    // Le a opção inserida e ja verifica se é um numero inteiro
+        // Le a opção inserida e ja verifica se é um numero inteiro
             int id_escolhido = 0;
             if (scanf("%d", &id_escolhido) != 1) {
                 while (getchar() != '\n'); // limpa o buffer
                 printf("\n[!] Entrada inválida! Empréstimo cancelado. [!]\n");
-                printf("\nPressione [ENTER] para voltar...");
+                printf("\nPressione [ENTER] para voltar...\n");
                 getchar();
                 return;
             }
@@ -137,7 +140,7 @@ void solicitar_emprestimo() {
 
             if (livro_index == -1) {
                 printf("\n[!] ID digitado não corresponde aos livros listados! [!]\n");
-                printf("\nPressione [ENTER] para voltar...");
+                printf("\nPressione [ENTER] para voltar...\n");
                 getchar();
                 return;
             }
@@ -145,12 +148,12 @@ void solicitar_emprestimo() {
 
     } else {
         printf("\n[!] Opção de busca inválida! [!]\n");
-        printf("\nPressione [ENTER] para voltar...");
+        printf("\nPressione [ENTER] para voltar...\n");
         getchar();
         return;
     }
 
-    // --- PROCESSAMENTO DA RETIRADA ---
+    // Processa a retirada
     if (acervo[livro_index].quantidade <= 0) {
         printf("\n[!] Desculpe, não há exemplares disponíveis desse livro no estoque! [!]\n");
     } else {
@@ -164,14 +167,17 @@ void solicitar_emprestimo() {
         acervo[livro_index].quantidade--;
         totalemprestimos++;
 
+        // Salva as alterações de estoque no disco
+        armazenar_emprestimos();
+        armazenar_livros();
+
         printf("\n[+] Empréstimo do livro '%s' realizado com sucesso! [+]\n", acervo[livro_index].titulo);
         char evento[100];
         sprintf(evento, "O usuario %s pegou o livro %s emprestado!", usuario_logado->name, acervo[livro_index].titulo);
         data_log(evento);
-
     }
 
-    printf("\nPressione [ENTER] para continuar...");
+    printf("\nPressione [ENTER] para continuar...\n");
     getchar();
 }
 
@@ -188,7 +194,7 @@ void devolver_livro() {
     if (scanf("%d", &id_livro_dev) != 1) {
         while (getchar() != '\n'); // Limpa o buffer
         printf("\n[!] Entrada inválida! [!]\n");
-        printf("\nPressione [ENTER] para voltar...");
+        printf("\nPressione [ENTER] para voltar...\n");
         getchar();
         return;
     }
@@ -208,6 +214,11 @@ void devolver_livro() {
             for (int j = 0; j < totallivros; j++) {
                 if (acervo[j].id == id_livro_dev) {
                     acervo[j].quantidade++;
+                    
+                    // Salva as alterações de estoque no disco
+                    armazenar_emprestimos();
+                    armazenar_livros();
+
                     printf("\n[+] Livro '%s' devolvido com sucesso! [+]\n", acervo[j].titulo);
                     char evento [100];
                     snprintf(evento, sizeof(evento), "O livro %s foi devolvido pelo usuario %s!", acervo[j].titulo, usuario_logado->name);
@@ -224,6 +235,33 @@ void devolver_livro() {
         printf("\n[!] Você não possui nenhum empréstimo ativo pendente para o livro ID %d! [!]\n", id_livro_dev);
     }
 
-    printf("\nPressione [ENTER] para continuar...");
+    printf("\nPressione [ENTER] para continuar...\n");
     getchar();
+}
+
+// Função pra armazenas os emprestimos no arquivo emprestimos.dat
+int armazenar_emprestimos() {
+    FILE *arquivo = fopen("../data/emprestimos.dat", "wb");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir arquivo de empréstimos para escrita!\n");
+        return 0;
+    }
+    fwrite(controle_emprestimos, sizeof(Emprestimo), totalemprestimos, arquivo);
+    fclose(arquivo);
+    return 1;
+}
+
+// Função para ler o arquivo emrpestimos.dat
+int carregar_emprestimos() {
+    FILE *arquivo = fopen("../data/emprestimos.dat", "rb");
+    if (arquivo == NULL) {
+        return 0; // O arquivo ainda não existe na primeira execução
+    }
+    int lidos = 0;
+    while (fread(&controle_emprestimos[lidos], sizeof(Emprestimo), 1, arquivo) == 1) {
+        lidos++;
+    }
+    totalemprestimos = lidos;
+    fclose(arquivo);
+    return lidos;
 }

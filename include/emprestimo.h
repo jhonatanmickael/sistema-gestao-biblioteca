@@ -17,5 +17,7 @@ extern int totalemprestimos;
 // Definindo as funções criadas
 void solicitar_emprestimo();
 void devolver_livro();
+int armazenar_emprestimos();
+int carregar_emprestimos();
 
 #endif

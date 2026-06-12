@@ -3,6 +3,7 @@
 #include "menu.h"
 #include "usuario.h"
 #include "livro.h"
+#include "emprestimo.h"
 
 int main() {
     system("clear");
@@ -11,8 +12,9 @@ int main() {
     if (totalusuarios == 0) {
         inicializar_sistema();
     }
-
+    carregar_emprestimos();
     inicializar_livros();
+    carregar_emprestimos();
     menu_inicial();
 
     return 0;
