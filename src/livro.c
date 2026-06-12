@@ -9,6 +9,10 @@ int totallivros = 0;
 
 // Função que ja abre o sistem com os 20 livros iniciais
 void inicializar_livros() {
+    if (carregar_livros() > 0) {
+        return;
+    }
+
     char titulos[20][100] = {
         "O Senhor dos Aneis", "1984", "Dom Casmurro", "O Pequeno Principe", "O Hobbit",
         "Fahrenheit 451", "Admiravel Mundo Novo", "A Revolucao dos Bichos", "O Alquimista", "O Codigo Da Vinci",
@@ -30,17 +34,18 @@ void inicializar_livros() {
         "Romance Psicologico", "Ficcao Gotica", "Terror", "Terror Ficcao", "Literatura Brasileira"
     };
 
-    // Laço para rotular os 20 livros no vetor acervo
+    // 20 livros no vetor acervo
     for (int i = 0; i < 20; i++) {
         acervo[i].id = i + 1; // IDs de 1 a 20
         strcpy(acervo[i].titulo, titulos[i]);
         strcpy(acervo[i].autor, autores[i]);
         strcpy(acervo[i].genero, generos[i]);
         acervo[i].quantidade = 3; // Cada livro começa com 3 copias
-        acervo[i].active = 1;     // Todos começam ativos (não deletados)
+        acervo[i].active = 1;     // Todos começam ativos
     }
 
     totallivros = 20; // Atualiza o contador do sistema para 20
+    armazenar_livros(); // Salva a lista inicial
 }
 
 // Lista os livros ativos no sistema
@@ -120,6 +125,7 @@ void cadastrar_livro() {
 
     acervo[totallivros] = novo;
     totallivros++;
+    armazenar_livros();
 
     printf("\n[+] Livro '%s' cadastrado com sucesso! (ID: %d) [+]\n", novo.titulo, novo.id);
     printf("\nPressione [ENTER] para continuar...");
@@ -139,7 +145,7 @@ void buscar_livro() {
     printf("2. Buscar por Título (Nome)\n");
     printf("-> ");
 
-// Seletor para escolher se vai buscar por id ou nome
+    // Seletor para escolher se vai buscar por id ou nome
     if (scanf("%d", &tipo_busca) != 1) {
         while (getchar() != '\n'); // Limpa o buffer
         system("clear");
@@ -225,4 +231,30 @@ void buscar_livro() {
 
     printf("\nPressione [ENTER] para voltar ao menu...");
     getchar();
+}
+
+int armazenar_livros() {
+    FILE *arquivo = fopen("../data/livros.dat", "wb");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir arquivo de livros para escrita!\n");
+        return 0;
+    }
+    // Grava o vetor inteiro de livros ativos de uma vez só
+    fwrite(acervo, sizeof(Livro), totallivros, arquivo);
+    fclose(arquivo);
+    return 1;
+}
+
+int carregar_livros() {
+    FILE *arquivo = fopen("../data/livros.dat", "rb");
+    if (arquivo == NULL) {
+        return 0; // Arquivo não existe (primeira execução)
+    }
+    int lidos = 0;
+    while (fread(&acervo[lidos], sizeof(Livro), 1, arquivo) == 1) {
+        lidos++;
+    }
+    totallivros = lidos; // Restaura o total de livros cadastrados
+    fclose(arquivo);
+    return lidos;
 }
