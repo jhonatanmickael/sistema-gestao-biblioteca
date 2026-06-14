@@ -265,3 +265,42 @@ int carregar_emprestimos() {
     fclose(arquivo);
     return lidos;
 }
+
+// Função para listar os emprestimos
+void listar_emprestimos() {
+    system("clear");
+    printf("====================================================\n");
+    printf("                  MEUS EMPRÉSTIMOS                  \n");
+    printf("====================================================\n");
+
+    int encontrados = 0;
+
+    // percorre a lista de emprestimos e separa as que pertence ao id de usuario logado
+    for (int i = 0; i < totalemprestimos; i++) {
+        if (controle_emprestimos[i].id_usuario == usuario_logado->id
+            && controle_emprestimos[i].status == 1) {
+                
+            char titulo_livro[100] = "Livro não encontrado ou removido";
+            for (int j = 0; j < totallivros; j++) {
+                if (acervo[j].id == controle_emprestimos[i].id_livro) {
+                    snprintf(titulo_livro, sizeof(titulo_livro), "%s", acervo[j].titulo);
+                    break;
+                }
+            }
+
+            printf("ID Livro: %d\n", controle_emprestimos[i].id_livro);
+            printf("Livro: %s\n", titulo_livro);
+            printf("----------------------------------------------------\n");
+            encontrados++;
+        }
+    }
+
+    if (encontrados == 0) {
+        printf("   [!] Você não possui empréstimos pendentes. [!]\n");
+    } else {
+        printf("Total de livros pendentes: %d\n", encontrados);
+    }
+    printf("----------------------------------------------------\n");
+    printf("Pressione [ENTER] para voltar...");
+    getchar(); 
+}

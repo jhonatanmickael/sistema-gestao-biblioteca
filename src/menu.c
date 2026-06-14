@@ -180,15 +180,19 @@ void submenu_livros() {
         }
         while (getchar() != '\n'); // limpa o buffer
 
+        // volta pro menu principal se inserir 0
         if (opcao == 0) {
-            break; // volta pro menu principal
+            break; 
         }
+        // lista os livros se inserir 1
         else if (opcao == 1) {
             listar_livros(); 
         }
+        // abre a tela de buscar livro se inserir 2
         else if (opcao == 2) {
             buscar_livro(); 
         }
+        // tratamento de erro caso insira uma opção invalida
         else {
             system("clear");
             printf("[!] Opção Inválida! [!]\nPressione [ENTER] para tentar novamente...");
@@ -201,6 +205,7 @@ void submenu_livros() {
 void submenu_emprestimos() { 
     int opcao = 0;
 
+    // grande printf da tela de emprestimos
     while (1) {
         system("clear");
         printf("=======================================\n");
@@ -208,10 +213,12 @@ void submenu_emprestimos() {
         printf("=======================================\n");
         printf("1. Pegar Livro Emprestado\n");
         printf("2. Devolver um Livro\n");
+        printf("3. Meus Empréstimos Pendentes\n");
         printf("0. Voltar ao Menu Principal\n");
         printf("---------------------------------------\n");
         printf("-> ");
 
+        // coleta a opção inserida e ja verifica se foi inserido um num inteiro
         if (scanf("%d", &opcao) != 1) {
             while (getchar() != '\n'); 
             system("clear");
@@ -220,17 +227,25 @@ void submenu_emprestimos() {
             getchar();
             continue;
         }
-        while (getchar() != '\n'); 
+        while (getchar() != '\n'); // limpa o buffer
 
+        // voltar pro menu principal se for digitar 0
         if (opcao == 0) {
             break; 
         }
+        // vai pra tela de pegar emprestimo se digitar 1
         else if (opcao == 1) {
             solicitar_emprestimo(); 
         }
+        // vai pra tela de devolver emprestimo se digitar 2
         else if (opcao == 2) {
             devolver_livro(); 
         }
+        // lista os emprestimos da conta se digitar 3
+        else if (opcao == 3) {
+            listar_emprestimos();
+        }
+        // mensagem de tratamento de erro caso inseriu uma opção invalida
         else {
             system("clear");
             printf("[!] Opção Inválida! [!]\nPressione [ENTER] para tentar novamente...");

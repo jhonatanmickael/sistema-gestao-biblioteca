@@ -264,12 +264,11 @@ int armazenar_usuarios(Usuario *usuario) {
 }
 
 int carregar_usuarios() {
-
     FILE *arquivo = fopen("../data/usuarios.dat", "rb");
 
     if (arquivo == NULL) {
-        printf("Arquivo não encontrado");
-        return 0;
+        totalusuarios = 0;
+        return 0; 
     }
 
     totalusuarios = 0;

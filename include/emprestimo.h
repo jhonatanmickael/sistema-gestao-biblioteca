@@ -19,5 +19,6 @@ void solicitar_emprestimo();
 void devolver_livro();
 int armazenar_emprestimos();
 int carregar_emprestimos();
+void listar_emprestimos();
 
 #endif
