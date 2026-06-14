@@ -252,7 +252,7 @@ int armazenar_usuarios(Usuario *usuario) {
     FILE *arquivo = fopen("../data/usuarios.dat", "ab");
 
     if (arquivo == NULL) {
-        printf("Arquivo não localizado!");
+        printf("Arquivo não localizado!\n");
         return 0;
     }
 
