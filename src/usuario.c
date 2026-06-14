@@ -16,37 +16,49 @@ void inicializar_sistema () {
     strcpy(armazenar[0].username, "root");
     strcpy(armazenar[0].name, "root");
     strcpy(armazenar[0].password, "root123");
-    armazenar[0].type = 1; // 1: Conta para root. 2: Conta comum
-    armazenar[0].active = 1; // Conta ativa
-    totalusuarios = 1; //Sistema ja começa com 1 usuario
+    armazenar[0].type = 1; // 1: conta para adm. 2: conta comum
+    armazenar[0].active = 1; // conta ativa
+    totalusuarios = 1; // sistema ja começa com 1 usuario
 
     armazenar_usuarios(&armazenar[0]);
 }
 
 // Função para cadastrar novos usuarios
 int cadastro() {
-    char username_auth[80];
+    char username_auth[50];
     if (limitar_usuarios() == 0) {
         return 0;
     }
-    // Coleta e limpa o Nome Completo
-    system("clear");
-    printf("\n---- CADASTRO DE USUÁRIO ----\n");
-    printf("Digite seu nome completo:\n-> ");
+    // grande printf da tela de cadastro e usuario
+    system("clear"); 
+    printf("====================================================\n");
+    printf("               CADASTRO DE USUÁRIO                  \n");
+    printf("====================================================\n");
+    printf("Digite seu nome completo:\n");
+    printf("----------------------------------------------------\n");
+    printf("-> ");
+    
+    // coleta o nome completo inserido
     fgets(armazenar[totalusuarios].name, 50, stdin);
     armazenar[totalusuarios].name[strcspn(armazenar[totalusuarios].name, "\n")] = '\0';
     system("clear");
 
-    // Loop principal para validação do Username
+  
     while (1) {
         system("clear");
-        printf("\n---- CADASTRO DE USUÁRIO ----\n");
+        printf("====================================================\n");
+        printf("               CADASTRO DE USUÁRIO                  \n");
+        printf("====================================================\n");
         printf("Nome: %s\n", armazenar[totalusuarios].name);
-        printf("--------------------------------\n");
-        printf("Digite o username desejado:\n-> ");
-        // Coleta e limpa o nome de usuário
+        printf("-----------------------------------------------------\n");
+        printf("Digite o Nome de Usuário desejado:\n");
+        printf("----------------------------------------------------\n");
+        printf("-> ");
+        
+        // coleta e salva o nome de usuario
         fgets(username_auth, 50, stdin);
-        username_auth[strcspn(username_auth, "\n")] = '\0';
+        username_auth[strcspn(username_auth, "\n")] = '\0'; // limpa o '\n' do fgets
+
         if (campo_vazio(username_auth) == 1) {
             system("clear");
             printf("Username não pode ficar vazio!...\n");
@@ -63,72 +75,99 @@ int cadastro() {
             getchar();
             system("clear");
 
-            continue; // Volta para pedir outro username
+            continue; // volta para pedir outro username
         }
 
         // Guarda o username aprovado na struct
         strcpy(armazenar[totalusuarios].username, username_auth);
 
-        break; // Se chegou aqui o usarname foi salvo com sucesso
+        break; // se chegou aqui o usarname foi salvo com sucesso
     }
 
-    // Coleta e limpa a Senha para o username criado
-    system("clear");
-    printf("\n---- CADASTRO DE UTILIZADOR ----\n");
+    system("clear");  
+    printf("====================================================\n");
+    printf("               CADASTRO DE USUÁRIO                  \n");
+    printf("====================================================\n");
     printf("Nome: %s\n", armazenar[totalusuarios].name);
-    printf("Username: %s\n", armazenar[totalusuarios].username);
-    printf("--------------------------------\n");
-    printf("Digite a password:\n-> ");
+    printf("Nome de Usuário: %s\n", armazenar[totalusuarios].username);
+    printf("-----------------------------------------------------\n");
+    printf("Digite a senha que deseja:\n");
+    printf("-----------------------------------------------------\n");
+    printf("-> ");
+
+    // le a entrada e salva a senha
     fgets(armazenar[totalusuarios].password, 50, stdin);
     armazenar[totalusuarios].password[strcspn(armazenar[totalusuarios].password, "\n")] = '\0';
 
-    // status do usuario
-    armazenar[totalusuarios].id = totalusuarios + 1; // ID automático (1, 2, 3...)
+    // atualiza informações do usuario
+    armazenar[totalusuarios].id = totalusuarios + 1; // id sequencial (1, 2, 3...)
     armazenar[totalusuarios].type = 2;               // 2 = usuario comum
     armazenar[totalusuarios].active = 1;             // 1 = Conta ativa
 
+    // salvando o log
     char evento[100];
-    sprintf(evento, "O usuario %s foi cadastrado.", armazenar[totalusuarios].username);
+    sprintf(evento, "O usuário %s foi cadastrado.", armazenar[totalusuarios].username);
     data_log(evento);
-
     armazenar_usuarios(&armazenar[totalusuarios]);
 
-    // usuario criado com sucesso, incrementa no total de usuarios
+    // grande printf dos dados cadastrados
+    system("clear");
+    printf("====================================================\n");
+    printf("          CONTA CRIADA COM SUCESSO!                 \n");
+    printf("====================================================\n");
+    printf(" Nome:     %s\n", armazenar[totalusuarios].name);
+    printf(" Usuário:  %s\n", armazenar[totalusuarios].username);
+    printf(" ID:       %d\n", armazenar[totalusuarios].id);
+    printf(" Nível:    %s\n", (armazenar[totalusuarios].type == 1) ? "Administrador" : "Leitor Comum");
+    printf("----------------------------------------------------\n");
+    printf("Pressione [ENTER] para voltar ao menu...");
+    getchar();
+
+    // incrementa no total de usuarios apos o uso dos dados atuais
     totalusuarios++;
     system("clear");
-    printf("[+] Utilizador cadastrado com sucesso! [+]\n");
-    printf("\nPressione [ENTER] para voltar ao menu...");
-    getchar();
-    system("clear");
-
-
 
     return 0; // Sucesso
-}
+}   
 
 // Função pra fazer o login
 int login() {
     char user_digitado[50], senha_digitada[50];
 
-    // Coleta oque foi digitado e limpa o \n final
+    // grande printf de iniciar sessao
     system("clear");
-    printf("\n---- TELA DE LOGIN ----\n");
-    printf("Username:\n-> ");
+    printf("====================================================\n");
+    printf("                   INICIAR SESSÃO                   \n");
+    printf("====================================================\n");
+    printf("Nome de Usuário:\n");
+    printf("----------------------------------------------------\n");
+    printf("-> ");
+
+    // coleta o nome de usuario
     fgets(user_digitado, 50, stdin);
-    user_digitado[strcspn(user_digitado, "\n")] = '\0';
+    user_digitado[strcspn(user_digitado, "\n")] = '\0'; // limpa o '\n'
 
-    // Coleta oque foi digitado e limpa o \n final
+    // grande printf de iniciar sessao
     system("clear");
-    printf("\n---- TELA DE LOGIN ----\n");
-    printf("Senha:\n-> ");
-    fgets(senha_digitada, 50, stdin);
-    senha_digitada[strcspn(senha_digitada, "\n")] = '\0';
+    printf("====================================================\n");
+    printf("                   INICIAR SESSÃO                   \n");
+    printf("====================================================\n");
+    printf("Nome de Usuário: %s\n", user_digitado);
+    printf("----------------------------------------------------\n");
+    printf("Digite sua senha:\n");
+    printf("----------------------------------------------------\n");
+    printf("-> ");
 
-    //  Verifica um por um se as informações correspondem a um usuario e senha ja existentes
+    // coleta a senha
+    fgets(senha_digitada, 50, stdin);
+    senha_digitada[strcspn(senha_digitada, "\n")] = '\0'; // limpa o '\n'
+
+    //  olha um por um se o usuario existe e a senha corresponde a esse usuario
     for (int i = 0; i < totalusuarios; i++) {
         if (strcmp(armazenar[i].username, user_digitado) == 0 &&
             strcmp(armazenar[i].password, senha_digitada) == 0){
 
+            // caso a conta esteja desativada
             if (validar_atividade(&armazenar[i]) == 0) {
                 system("clear");
                 printf("[!] Esta conta está desativada. [!]\n");
@@ -137,23 +176,24 @@ int login() {
                 return 0;
             }
 
+            // salva a conta na sessao global ativa para usuario logado
             usuario_logado = &armazenar[i];
 
-            // Salva a conta encontrada na sessão global ativa (Corrige o lixo de memória)
-
-
-            char evento[100];
+            // salva o log
+            // 150 de tamanho para prevenir o estouro de string
+            char evento[150];
             sprintf(evento, "O usuario %s fez login", armazenar[i].username);
             data_log(evento);
 
             system("clear");
             printf("\n");
-            printf("  01110   01110   111  001     01   01  01  01110   01110   011100\n");
-            printf("  01  01  01     01  01  01    01   01  01  01  01  01  01  01  01\n");
-            printf("  01110   01110  01  01  01    01   01  01  01  01  01  01  01  01\n");
-            printf("  01  01  01     01  01  01     01 01   01  01  01  01  01  01  01\n");
-            printf("  01110   01110  01  01  01      010    01  01  01  01110   011101\n");
-            printf("-------------------------------------------------------");
+            printf("-----------------------------------------------------------------------\n");
+            printf("    01110   01110   111  001     01   01  01  01110   01110   011100\n");
+            printf("    01  01  01     01  01  01    01   01  01  01  01  01  01  01  01\n");
+            printf("    01110   01110  01  01  01    01   01  01  01  01  01  01  01  01\n");
+            printf("    01  01  01     01  01  01     01 01   01  01  01  01  01  01  01\n");
+            printf("    01110   01110  01  01  01      010    01  01  01  01110   011101\n");
+            printf("-----------------------------------------------------------------------\n");
             printf("\nBem-vindo de volta, %s!\n", armazenar[i].name);
             printf("Pressione [ENTER] para continuar...");
             getchar();
@@ -162,6 +202,7 @@ int login() {
         }
     }
 
+    // se o usuario e senha não corresponderem ele aponta falha de login
     system("clear");
     printf("\n[!] Erro: Username ou senha incorretos.\n");
     printf("Presione [ENTER] para continuar...");
