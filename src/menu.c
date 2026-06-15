@@ -113,11 +113,10 @@ void menu_sistema() {
         else if (opcao == 3 && usuario_logado->type == 1) {
             menu_livros_adm();
         }
-        // chama a função de listagem se a entrada for 4
-        // essa opção sera inclusa no submenu de usuarios em breve
+        // chama a submenu de usuarios se a entrada for 4
         else if (opcao == 4 && usuario_logado->type == 1) {
             system("clear");
-            listagem();
+            submenu_usuarios();
         }
         // chama a listagem de logs se a entrada for 5
         else if (opcao == 5 && usuario_logado->type == 1) {
@@ -209,7 +208,8 @@ void submenu_emprestimos() {
     while (1) {
         system("clear");
         printf("=======================================\n");
-        printf("             EMPRÉSTIMOS               \n");
+        printf("          SISTEMA DE BIBLIOTECA        \n");
+        printf("          SUBMENU: EMPRÉSTIMOS         \n");
         printf("=======================================\n");
         printf("1. Pegar Livro Emprestado\n");
         printf("2. Devolver um Livro\n");
@@ -252,4 +252,80 @@ void submenu_emprestimos() {
             getchar();
         }
     }
+}
+
+// menu de gestão de usuarios, opção 4 do menu principal
+void submenu_usuarios() {
+    int opcao;
+
+    do {
+        // grande printf so submenu de usuarios
+        system("clear");
+        printf("======================================\n");
+        printf("       SISTEMA DE BIBLIOTECA        \n");
+        printf("      SUBMENU: GESTÃO DE USUÁRIOS   \n");
+        printf("======================================\n");
+        printf("1. Cadastrar Novo Usuário\n");
+        printf("2. Listar Todos os Usuários\n");
+        printf("3. Buscar Usuário\n");
+        printf("4. Alterar Privilegio/Senha\n");
+        printf("5. Remover Usuário\n");
+        printf("0. Voltar ao Menu Principal\n");
+        printf("======================================\n");
+        printf("-> ");
+
+        // Le e ja verifica se a entrada é valida
+        if (scanf("%d", &opcao) != 1) {
+            while (getchar() != '\n'); // limpa o buffer
+        } else {
+            while (getchar() != '\n'); // limpa o buffer
+        }
+
+        // processamento da opção escolhida
+        switch (opcao) {
+            // opção 1 em desenvolvimento
+            case 1:
+                system("clear");
+                printf("\n[INFO] Opcao 'Cadastrar Novo Operador' em desenvolvimento...\n");
+                printf("\nPressione [ENTER] para voltar...");
+                getchar();
+                break;
+            // lista todos os usuarios
+            case 2:
+                listagem(); 
+                break;
+            // opção 2 em desenvolvimento
+            case 3:
+                system("clear");
+                printf("\n[INFO] Opcao 'Buscar Operador por Login' em desenvolvimento...\n");
+                printf("\nPressione [ENTER] para voltar...");
+                getchar();
+                break;
+            // opção 4 em desenvolvimento
+            case 4:
+                system("clear");
+                printf("\n[INFO] Opcao 'Alterar Privilegio/Senha' em desenvolvimento...\n");
+                printf("\nPressione [ENTER] para voltar...");
+                getchar();
+                break;
+            // opção 5 em desenvolvimento
+            case 5:
+                system("clear");
+                printf("\n[INFO] Opcao 'Remover Operador' em desenvolvimento...\n");
+                printf("\nPressione [ENTER] para voltar...");
+                getchar();
+                break;
+            // opção 0 volta pra o menu principal
+            case 0:
+                printf("\nVoltando ao menu principal...\n");
+                break;
+            // caso a entrada nao seja valida
+            default:
+                system("clear");
+                printf("\n[ERRO] Opcao invalida! Tente novamente.\n");
+                printf("\nPressione [ENTER] para continuar...");
+                getchar();
+                break;
+        }
+    } while (opcao != 0);
 }
