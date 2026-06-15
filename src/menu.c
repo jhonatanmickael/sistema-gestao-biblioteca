@@ -283,12 +283,9 @@ void submenu_usuarios() {
 
         // processamento da opção escolhida
         switch (opcao) {
-            // opção 1 em desenvolvimento
+            // se escolher 1 abre a tela de cadastro
             case 1:
-                system("clear");
-                printf("\n[INFO] Opcao 'Cadastrar Novo Operador' em desenvolvimento...\n");
-                printf("\nPressione [ENTER] para voltar...");
-                getchar();
+                cadastro();
                 break;
             // lista todos os usuarios
             case 2:

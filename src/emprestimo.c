@@ -255,7 +255,7 @@ int armazenar_emprestimos() {
 int carregar_emprestimos() {
     FILE *arquivo = fopen("../data/emprestimos.dat", "rb");
     if (arquivo == NULL) {
-        return 0; // O arquivo ainda não existe na primeira execução
+        return 0; // o arquivo ainda n existe na primeira execução
     }
     int lidos = 0;
     while (fread(&controle_emprestimos[lidos], sizeof(Emprestimo), 1, arquivo) == 1) {
