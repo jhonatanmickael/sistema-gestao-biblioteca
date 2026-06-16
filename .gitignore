@@ -141,3 +141,4 @@ data/*.dat
 
 #Lixo temporario
 .CMakeLists.txt.swp
+CMakeLists.txt.save
