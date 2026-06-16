@@ -24,6 +24,7 @@ void menu_inicial () {
         // le e ja verifica se oque foi inserido é um num inteiro
         if (scanf("%d", &select) != 1) {
             while (getchar() != '\n'); // limpa o buffer
+            select = -1;
             system("clear");
             printf("[!] Digite apenas numeros [!]\nPressione [ENTER] para continuar...");
             getchar();
@@ -86,6 +87,7 @@ void menu_sistema() {
         // le uma entrada e ja verifica se é uma entrada valida
         if (scanf("%d", &opcao) != 1) {
             while (getchar() != '\n'); // limpa o buffer
+            opcao = -1;
             system("clear");
             printf("[!] Entrada inválida! Digite apenas números. [!]\n");
             printf("\nPressione [ENTER] para tentar novamente...");
@@ -253,6 +255,8 @@ void submenu_livros_adm() {
 
         if (scanf("%d", &opcao) != 1) {
             while (getchar() != '\n');
+            opcao = -1;
+            system("clear");
             printf("\n[!] Digite apenas números! [!]\n");
             printf("\nPressione [ENTER] para continuar...");
             getchar();
@@ -269,6 +273,7 @@ void submenu_livros_adm() {
         } else if (opcao == 3) {
             remover_livro();
         } else {
+            system("clear");
             printf("\n[!] Opção inválida! [!]\n");
             printf("\nPressione [ENTER] para continuar...");
             getchar();
