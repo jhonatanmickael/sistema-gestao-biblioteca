@@ -5,6 +5,34 @@
 #include "menu.h"
 #include "livro.h"
 #include "emprestimo.h"
+#include <string.h>
+
+// cabeçalho padrao pra diminuir um pouco o codigo
+void exibir_cabecalho(char *subtitulo) {
+    int largura_total = 82; // largura de tudo
+    int tam_texto = strlen(subtitulo);
+    // calcula a quantidade de espaços a esquerda pra centralizar
+    int espacos_esquerda = (largura_total - tam_texto) / 2;
+    system("clear");
+    printf("==================================================================================\n");
+    printf("                          SISTEMA DE GESTÃO DE BIBLIOTECA                         \n");
+    // imprime os espaços a esquerdas pra centralizar
+    for (int i = 0; i < espacos_esquerda; i++) {
+        printf(" ");
+    }
+    // imprime o texto escolhido
+    printf("%s\n", subtitulo);
+    printf("==================================================================================\n");
+}
+
+// linhas padroes usadas
+void linha() {
+    int tam_linha = 82; // altere aqui o tamanho das linhas padroes
+    for (int i = 0; i < tam_linha; i++) {
+        printf("-");
+    }
+    printf("\n");
+}
 
 // tela de cadastro e entrada
 void menu_inicial () {
@@ -13,20 +41,21 @@ void menu_inicial () {
     while (1) {
         // grande printf da tela e cadastro
         system("clear");
-        printf("====================================================\n");
-        printf("              SISTEMA DE BIBLIOTECA                 \n");
-        printf("====================================================\n");
+        exibir_cabecalho("-> TELA INICIAL <-");
         printf("Seja bem-vindo ao Sitema de Gestão de Bibliotecas.  \n");
-        printf("----------------------------------------------------\n");
+        linha();
         printf("1. Cadastrar\n2. Login\n");
-        printf("----------------------------------------------------\n-> ");
+        linha();
 
         // le e ja verifica se oque foi inserido é um num inteiro
         if (scanf("%d", &select) != 1) {
             while (getchar() != '\n'); // limpa o buffer
             select = -1;
             system("clear");
-            printf("[!] Digite apenas numeros [!]\nPressione [ENTER] para continuar...");
+            exibir_cabecalho("-> TELA INICIAL <-");
+            printf("[!] Digite apenas numeros [!]");
+            linha();
+            printf("Pressione [ENTER] para continuar...");
             getchar();
             system("clear");
             continue; // volta para o inicio do menu
@@ -36,7 +65,10 @@ void menu_inicial () {
         if (select > 2 || select < 1) {
             while (getchar() != '\n'); // limpa o buffer
             system("clear");
-            printf("\n[!] Digite uma opção valida [!]\n\nPressione [ENTER] para continuar...");
+            exibir_cabecalho("-> TELA INICIAL <-");
+            printf("\n[!] Digite uma opção valida [!]\n");
+            linha();
+            printf("Pressione [ENTER] para continuar...");
             getchar();
             continue; // volta para o inicio do menu
         }
@@ -66,11 +98,9 @@ void menu_sistema() {
     while (1) {
         // grande printf pra mostrar todo o menu
         system("clear");
-        printf("============================================\n");
-        printf("          SISTEMA DE BIBLIOTECA             \n");
-        printf("============================================\n");
+        exibir_cabecalho("-> MENU PRINCIPAL <-");
         printf("Usuário conectado: %s\n", usuario_logado->name);
-        printf("--------------------------------------------\n");
+        linha();
         printf("1. Livros\n");
         printf("2. Emprestimos\n");
 
@@ -81,7 +111,7 @@ void menu_sistema() {
             printf("5. [ADM] Gerenciar Logs\n");
         }
         printf("0. Fazer Logout (Sair)\n");
-        printf("--------------------------------------------\n");
+        linha();
         printf("-> ");
 
         // le uma entrada e ja verifica se é uma entrada valida
@@ -89,8 +119,10 @@ void menu_sistema() {
             while (getchar() != '\n'); // limpa o buffer
             opcao = -1;
             system("clear");
+            exibir_cabecalho("-> MENU PRINCIPAL <-");
             printf("[!] Entrada inválida! Digite apenas números. [!]\n");
-            printf("\nPressione [ENTER] para tentar novamente...");
+            linha();
+            printf("Pressione [ENTER] para tentar novamente...");
             getchar();
             continue;
         }
@@ -99,7 +131,9 @@ void menu_sistema() {
         // volta pra o menu inicial se a entrada for 0
         if (opcao == 0) {
             system("clear");
+            exibir_cabecalho("-> MENU PRINCIPAL <-");
             printf("A encerrar a sessão de %s...\n", usuario_logado->name);
+            linha();
             printf("Pressione [ENTER] para voltar ao menu inicial...");
             getchar();
             usuario_logado = NULL; // forçando o ponteiro a desconectar de uma conta
@@ -128,7 +162,10 @@ void menu_sistema() {
         // tratamento de erro para entradas invalidas
         else {
             system("clear");
-            printf("[!] Opção Inválida! [!]\nPressione [ENTER] para tentar novamente...");
+            exibir_cabecalho("-> MENU PRINCIPAL <-");
+            printf("[!] Opção Inválida! [!]\n");
+            linha();
+            printf("Pressione [ENTER] para tentar novamente...");
             getchar();
         }
     }
@@ -141,22 +178,21 @@ void submenu_livros() {
     // grande printf da tela de menu de livros
     while (1) {
         system("clear");
-        printf("=======================================\n");
-        printf("          SISTEMA DE BIBLIOTECA        \n");
-        printf("          SUBMENU: LIVROS              \n");
-        printf("=======================================\n");
+        exibir_cabecalho("-> LIVROS <-");
         printf("1. Listar Livros Disponíveis\n");
         printf("2. Buscar Livro por Título\n");
         printf("0. Voltar ao Menu Principal\n");
-        printf("---------------------------------------\n");
+        linha();
         printf("-> ");
         
         // le uma entrada e ja verifica se é um numero inteiro
         if (scanf("%d", &opcao) != 1) {
             while (getchar() != '\n'); // limpa o buffer
             system("clear");
+            exibir_cabecalho("-> LIVROS <-");
             printf("[!] Entrada inválida! Digite apenas números. [!]\n");
-            printf("\nPressione [ENTER] para tentar novamente...");
+            linha();
+            printf("Pressione [ENTER] para tentar novamente...");
             getchar();
             continue;
         }
@@ -177,7 +213,10 @@ void submenu_livros() {
         // tratamento de erro caso insira uma opção invalida
         else {
             system("clear");
-            printf("[!] Opção Inválida! [!]\nPressione [ENTER] para tentar novamente...");
+            exibir_cabecalho("-> LIVROS <-");
+            printf("[!] Opção Inválida! [!]\n");
+            linha();
+            printf("Pressione [ENTER] para tentar novamente...");
             getchar();
         }
     }
@@ -190,23 +229,22 @@ void submenu_emprestimos() {
     // grande printf da tela de emprestimos
     while (1) {
         system("clear");
-        printf("=======================================\n");
-        printf("          SISTEMA DE BIBLIOTECA        \n");
-        printf("          SUBMENU: EMPRÉSTIMOS         \n");
-        printf("=======================================\n");
+        exibir_cabecalho("-> EMPRESTIMOS <-");
         printf("1. Pegar Livro Emprestado\n");
         printf("2. Devolver um Livro\n");
         printf("3. Meus Empréstimos Pendentes\n");
         printf("0. Voltar ao Menu Principal\n");
-        printf("---------------------------------------\n");
+        linha();
         printf("-> ");
         
         // coleta a opção inserida e ja verifica se foi inserido um num inteiro
         if (scanf("%d", &opcao) != 1) {
             while (getchar() != '\n'); 
             system("clear");
+            exibir_cabecalho("-> EMPRESTIMOS <-");
             printf("[!] Entrada inválida! Digite apenas números. [!]\n");
-            printf("\nPressione [ENTER] para tentar novamente...");
+            linha();
+            printf("Pressione [ENTER] para tentar novamente...");
             getchar();
             continue;
         }
@@ -231,7 +269,10 @@ void submenu_emprestimos() {
         // mensagem de tratamento de erro caso inseriu uma opção invalida
         else {
             system("clear");
-            printf("[!] Opção Inválida! [!]\nPressione [ENTER] para tentar novamente...");
+            exibir_cabecalho("-> EMPRESTIMOS <-");
+            printf("[!] Opção Inválida! [!]");
+            linha();
+            printf("Pressione [ENTER] para tentar novamente...");
             getchar();
         }
     }
@@ -243,22 +284,21 @@ void submenu_livros_adm() {
 
     while (1) {
         system("clear");
-        printf("===============================================\n");
-        printf("            SISTEMA DE BIBLIOTECA              \n");
-        printf("            SUBMENU: GERENCIAR LIVROS          \n");
-        printf("===============================================\n");
+        exibir_cabecalho("-> GERENCIAR LIVROS <-");
         printf("1. Cadastrar livro\n");
         printf("2. Editar livro\n");
         printf("3. Remover livro\n");
         printf("0. Voltar\n");
-        printf("-----------------------------------------------\n-> ");
+        linha();
 
         if (scanf("%d", &opcao) != 1) {
             while (getchar() != '\n');
             opcao = -1;
             system("clear");
-            printf("\n[!] Digite apenas números! [!]\n");
-            printf("\nPressione [ENTER] para continuar...");
+            exibir_cabecalho("-> GERENCIAR LIVROS <-");
+            printf("[!] Digite apenas números! [!]\n");
+            linha();
+            printf("Pressione [ENTER] para continuar...");
             getchar();
             continue;
         }
@@ -274,8 +314,10 @@ void submenu_livros_adm() {
             remover_livro();
         } else {
             system("clear");
-            printf("\n[!] Opção inválida! [!]\n");
-            printf("\nPressione [ENTER] para continuar...");
+            exibir_cabecalho("-> GERENCIAR LIVROS <-");
+            printf("[!] Opção inválida! [!]\n");
+            linha();
+            printf("Pressione [ENTER] para continuar...");
             getchar();
         }
     }
@@ -288,16 +330,13 @@ void submenu_usuarios() {
     do {
         // grande printf so submenu de usuarios
         system("clear");
-        printf("======================================\n");
-        printf("       SISTEMA DE BIBLIOTECA        \n");
-        printf("      SUBMENU: GESTÃO DE USUÁRIOS   \n");
-        printf("======================================\n");
+        exibir_cabecalho("-> GERENCIAR USUÁRIOS <-");
         printf("1. Cadastrar Novo Usuário\n");
         printf("2. Listar Todos os Usuários\n");
         printf("3. Buscar Usuário\n");
         printf("4. Editar Usuário\n");
         printf("0. Voltar ao Menu Principal\n");
-        printf("======================================\n");
+        linha();
         printf("-> ");
         
         // Le e ja verifica se a entrada é valida
@@ -331,12 +370,9 @@ void submenu_usuarios() {
         // caso a entrada nao seja valida
         else {
             system("clear");
-            printf("=========================================\n");
-            printf("       SISTEMA DE BIBLIOTECA        \n");
-            printf("      SUBMENU: GESTÃO DE USUÁRIOS   \n");
-            printf("=========================================\n");
+            exibir_cabecalho("-> GERENCIAR USUÁRIOS");
             printf("[!] Opcao invalida! Tente novamente. [!]\n");
-            printf("-----------------------------------------\n");
+            linha();
             printf("Pressione [ENTER] para continuar...");
             getchar();
         }

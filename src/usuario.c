@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include "relatorios.h"
+#include "menu.h"
 
 Usuario armazenar[100]; // maximo de contas criadas
 Usuario *usuario_logado = NULL; // forçando o ponteiro a iniciar desconectado de uma conta
@@ -34,12 +35,9 @@ int cadastro() {
 
     // grande printf da tela de cadastro e usuario
     system("clear"); 
-    printf("==========================================================\n");
-    printf("               SISTEMA DE BIBLIOTECA                      \n");
-    printf("               MENU: CADASTRO DE USUÁRIO                  \n");
-    printf("==========================================================\n");
+    exibir_cabecalho("-> CADASTRO DE USUÁRIO <-");
     printf("Digite seu nome completo:\n");
-    printf("----------------------------------------------------------\n");
+    linha();
     printf("-> ");
     
     // coleta o nome completo inserido
@@ -48,19 +46,19 @@ int cadastro() {
 
     // Se nao inserir nada ele da erro
     if (campo_vazio(armazenar[totalusuarios].name)) {
-        printf("\n[!] O nome nao pode ser vazio! [!]\n");
+        exibir_cabecalho("-> CADASTRO DE USUÁRIO <-");
+        printf("[!] O nome nao pode ser vazio! [!]\n");
+        linha();
         printf("\nPressione [ENTER] para voltar...");
         getchar();
         return 0;
     }
     system("clear");
-    printf("==========================================================\n");
-    printf("               SISTEMA DE BIBLIOTECA                      \n");
-    printf("               MENU: CADASTRO DE USUÁRIO                  \n");
-    printf("==========================================================\n");
+    exibir_cabecalho("-> CADASTRO DE USUÁRIO");
     printf("Nome completo: %s\n", armazenar[totalusuarios].name);
+    linha();
     printf("Digite seu nome de usuário:\n");
-    printf("----------------------------------------------------------\n");
+    linha();
     printf("-> ");
 
     // coleta o username inserido
@@ -69,22 +67,22 @@ int cadastro() {
 
     // verifica se o username inserido é valido
     if (campo_vazio(username_auth) || validar_username(username_auth) == 0) {
-        printf("\n[!] Nome de usuário inválido ou já em uso! [!]\n");
-        printf("\nPressione [ENTER] para voltar...");
+        exibir_cabecalho("-> CADASTRO DE USUÁRIO");
+        printf("[!] Nome de usuário inválido ou já em uso! [!]\n");
+        linha();
+        printf("Pressione [ENTER] para voltar...");
         getchar();
         return 0;
     }
     strcpy(armazenar[totalusuarios].username, username_auth);
 
     system("clear");
-    printf("==========================================================\n");
-    printf("               SISTEMA DE BIBLIOTECA                      \n");
-    printf("               MENU: CADASTRO DE USUÁRIO                  \n");
-    printf("==========================================================\n");
+    exibir_cabecalho("-> CADASTRO DE USUÁRIO <-");
     printf("Nome completo: %s\n", armazenar[totalusuarios].name);
     printf("Nome de usuário: %s\n", armazenar[totalusuarios].username);
+    linha();
     printf("Digite a senha para a conta:\n");
-    printf("----------------------------------------------------------\n");
+    linha();
     printf("-> ");
 
     // coleta a senha inserida
@@ -93,8 +91,10 @@ int cadastro() {
 
     // se deixar o campo vazio ele da erro
     if (campo_vazio(armazenar[totalusuarios].password)) {
-        printf("\n[!] A senha nao pode ser vazia! [!]\n");
-        printf("\nPressione [ENTER] para voltar...");
+        exibir_cabecalho("-> CADASTRO DE USUÁRIO <-");
+        printf("[!] A senha nao pode ser vazia! [!]\n");
+        linha();
+        printf("Pressione [ENTER] para voltar...");
         getchar();
         return 0;
     }
@@ -105,15 +105,13 @@ int cadastro() {
         int tipo_escolhido = 0;
         do {
             system("clear");
-            printf("==========================================================\n");
-            printf("               SISTEMA DE BIBLIOTECA                      \n");
-            printf("               MENU: CADASTRO DE USUÁRIO                  \n");
-            printf("==========================================================\n");
+            exibir_cabecalho("-> CADASTRO DE USUÁRIO <-");
             printf("Nome completo: %s\n", armazenar[totalusuarios].name);
             printf("Nome de usuário: %s\n", armazenar[totalusuarios].username);
+            linha();
             printf("Escolha o nível de acesso da conta:\n");
             printf("1. Administrador\n2. Leitor Comum\n");
-            printf("----------------------------------------------------------\n");
+            linha();
             printf("-> ");
 
             // le e ja verifica se oque foi inserido é valido
@@ -125,6 +123,7 @@ int cadastro() {
             }
 
             if (tipo_escolhido < 1 || tipo_escolhido > 2) {
+                exibir_cabecalho("-> CADASTRO DE USUÁRIO <-");
                 printf("[!] Opção inválida! Escolha 1 ou 2. [!]\n");
             }
         } while (tipo_escolhido < 1 || tipo_escolhido > 2);
@@ -141,7 +140,7 @@ int cadastro() {
 
     // armazena as informações inseridas no arquivo binário
     if (armazenar_usuarios(&armazenar[totalusuarios])) {
-        // Gera o log do evento
+        // gera o log do evento
         char log_msg[100];
         snprintf(log_msg, sizeof(log_msg), "Cadastrou o usuário '%s' como %s", 
                  armazenar[totalusuarios].username, (armazenar[totalusuarios].type == 1 ? "ADM" : "Leitor Comum"));
@@ -149,24 +148,28 @@ int cadastro() {
 
         // grande printf pra mostrar os dados da nova conta cadastrada
         system("clear");
-        printf("====================================================\n");
-        printf("           CONTA CADASTRADA COM SUCESSO!            \n");
-        printf("====================================================\n");
-        printf("  [i] Detalhes da nova credencial no sistema:\n\n");
+        exibir_cabecalho("-> CADASTRO DE USUÁRIO <-");
+        printf("  [i] Detalhes da nova credencial no sistema:\n");
+        linha();
         printf("  > ID do Usuário:   #%03d\n", totalusuarios + 1);
         printf("  > Nome Completo:   %s\n", armazenar[totalusuarios].name);
         printf("  > Nome de Usuário: %s\n", armazenar[totalusuarios].username);
         printf("  > Tipo de Conta:   %s\n", (armazenar[totalusuarios].type == 1 ? "Administrador" : "Leitor Comum"));
         printf("  > Status do Perfil: Ativo\n");
         printf("====================================================\n");
+        printf("Pressione [ENTER] para continuar...");
+        getchar();
         
         totalusuarios++;
     } else {
-        printf("\n[!] Erro crítico ao salvar no arquivo de dados. [!]\n");
+        system("clear");
+        exibir_cabecalho("-> CADASTRO DE USUÁRIO <-");
+        printf("[!] Erro crítico ao salvar no arquivo de dados. [!]\n");
+        linha();
+        printf("Pressione [ENTER] para continuar...");
+        getchar();
     }
 
-    printf("\nPressione [ENTER] para continuar...");
-    getchar();
     return 1;
 }
 
@@ -176,11 +179,9 @@ int login() {
 
     // grande printf de iniciar sessao
     system("clear");
-    printf("====================================================\n");
-    printf("                   INICIAR SESSÃO                   \n");
-    printf("====================================================\n");
+    exibir_cabecalho("-> INICIAR SESSÃO <-");
     printf("Nome de Usuário:\n");
-    printf("----------------------------------------------------\n");
+    linha();
     printf("-> ");
 
     // coleta o nome de usuario
@@ -189,13 +190,11 @@ int login() {
 
     // grande printf de iniciar sessao
     system("clear");
-    printf("====================================================\n");
-    printf("                   INICIAR SESSÃO                   \n");
-    printf("====================================================\n");
+    exibir_cabecalho("-> INICIAR SESSÃO <-");
     printf("Nome de Usuário: %s\n", user_digitado);
-    printf("----------------------------------------------------\n");
+    linha();
     printf("Digite sua senha:\n");
-    printf("----------------------------------------------------\n");
+    linha();
     printf("-> ");
 
     // coleta a senha
@@ -210,8 +209,10 @@ int login() {
             // caso a conta esteja desativada
             if (validar_atividade(&armazenar[i]) == 0) {
                 system("clear");
+                exibir_cabecalho("-> INICIAR SESSÃO <-");
                 printf("[!] Esta conta está desativada. [!]\n");
-                printf("\nPressione [ENTER] para continuar...");
+                linha();
+                printf("Pressione [ENTER] para continuar...");
                 getchar();
                 return 0;
             }
@@ -226,15 +227,15 @@ int login() {
             data_log(evento);
 
             system("clear");
+            exibir_cabecalho("-> INICIAR SESSÃO <-");
             printf("\n");
-            printf("-----------------------------------------------------------------------\n");
-            printf("    01110   01110   111  001     01   01  01  01110   01110   011100\n");
-            printf("    01  01  01     01  01  01    01   01  01  01  01  01  01  01  01\n");
-            printf("    01110   01110  01  01  01    01   01  01  01  01  01  01  01  01\n");
-            printf("    01  01  01     01  01  01     01 01   01  01  01  01  01  01  01\n");
-            printf("    01110   01110  01  01  01      010    01  01  01  01110   011101\n");
-            printf("-----------------------------------------------------------------------\n");
-            printf("\nBem-vindo de volta, %s!\n", armazenar[i].name);
+            printf("01110   01110   111  001     01   01  01  01110   01110   011100\n");
+            printf("01  01  01     01  01  01    01   01  01  01  01  01  01  01  01\n");
+            printf("01110   01110  01  01  01    01   01  01  01  01  01  01  01  01\n");
+            printf("01  01  01     01  01  01     01 01   01  01  01  01  01  01  01\n");
+            printf("01110   01110  01  01  01      010    01  01  01  01110   011101\n");
+            linha();
+            printf("Bem-vindo de volta, %s!\n", armazenar[i].name);
             printf("Pressione [ENTER] para continuar...");
             getchar();
 
@@ -244,7 +245,9 @@ int login() {
 
     // se o usuario e senha não corresponderem ele aponta falha de login
     system("clear");
-    printf("\n[!] Erro: Username ou senha incorretos.\n");
+    exibir_cabecalho("-> INICIAR SESSÃO <-");
+    printf("[!] Erro: Nome de Usuário ou senha incorretos.\n");
+    linha();
     printf("Presione [ENTER] para continuar...");
     getchar();
 
@@ -254,25 +257,21 @@ int login() {
 // Função para listar todos os livros
 void listagem () {
     system("clear");
-    printf("================================================================================\n");
-    printf("                              SISTEMA DE BIBLIOTECA                             \n");
-    printf("                              ->  LISTA DE USUÁRIOS                             \n");
-    printf("================================================================================\n");
-    printf("%-4s | %-25s | %-15s | %-15s\n", "ID", "NOME", "USERNAME", "ACESSO");
-    printf("--------------------------------------------------------------------------------\n");
-    
+    exibir_cabecalho("-> LISTA DE USUÁRIO <-");
+    printf("%-4s | %-25s | %-20s | %-15s\n", "ID", "NOME", "NOME DE USUÁRIO", "ACESSO");   
+    linha();
+    // percorre um a um dos usuarios ativos
     for (int i = 0; i < totalusuarios; i++) {
         if (armazenar[i].active == 1) { 
-            printf("%-04d | %-25.25s | %-15.15s | %s\n",
-                   armazenar[i].id,
-                   armazenar[i].name,
-                   armazenar[i].username,
-                   (armazenar[i].type == 1 ? "Administrador" : "Leitor Comum"));
+            printf("#%03d | %-25.25s | %-20.20s | %-15s\n",
+                armazenar[i].id,
+                armazenar[i].name,
+                armazenar[i].username,
+                (armazenar[i].type == 1 ? "Administrador" : "Leitor Comum"));
         }
     }
 
-    printf("================================================================================\n");
-
+    linha();
     printf("\nPressione [ENTER] para voltar ao menu...");
     getchar();
     system("clear");
@@ -327,9 +326,12 @@ int carregar_usuarios() {
 int limitar_usuarios() {
     if (totalusuarios >= 100) {
         system("clear");
+        exibir_cabecalho("-> ERRO <-");
         printf("[!] Limite máximo de usuários atingido. [!]\n");
+        linha();
         printf("Não é possível cadastrar mais usuários.\n");
-        printf("\nPressione [ENTER] para voltar...");
+        linha();
+        printf("Pressione [ENTER] para voltar...");
         getchar();
         return 0;
     }
@@ -358,20 +360,20 @@ void buscar_usuario() {
 
     // grande printf da tela de buscar usuario
     system("clear");
-    printf("======================================================\n");
-    printf("                 SISTEMA DE BIBLIOTECA                \n");
-    printf("                 -> BUSCAR  USUÁRIO <-                \n");
-    printf("======================================================\n");
+    exibir_cabecalho("-> BUSCAR USUÁRIO <-");
     printf("Como deseja buscar o operador?\n");
     printf("1. Pelo ID\n");
     printf("2. Pelo Nome de Usuário\n");
-    printf("------------------------------------------------------\n-> ");
+    linha();
+    printf("-> ");
 
     // coleta a opção escolhida e ja verifica se a entrada é valida
     if (scanf("%d", &tipo_busca) != 1) {
         while (getchar() != '\n'); // limpa o buffer
         system("clear");
+        exibir_cabecalho("-> BUSCAR USUÁRIO <-");
         printf("[!] Entrada inválida! Digite apenas números. [!]\n");
+        linha();
         printf("\nPressione [ENTER] para voltar...");
         getchar();
         return;
@@ -385,24 +387,19 @@ void buscar_usuario() {
         int id_busca = 0;
 
         system("clear");
-        printf("======================================================\n");
-        printf("                 SISTEMA DE BIBLIOTECA                \n");
-        printf("                 -> BUSCAR  USUÁRIO <-                \n");
-        printf("======================================================\n");
+        exibir_cabecalho("-> BUSCAR USUÁRIO <-");
         printf("Digite o ID que deseja buscar:\n");
-        printf("------------------------------------------------------\n");
+        linha();
         printf("-> ");
 
         if (scanf("%d", &id_busca) != 1) {
             while (getchar() != '\n'); // limpa o buffer
             system("clear");
-            printf("======================================================\n");
-            printf("                 SISTEMA DE BIBLIOTECA                \n");
-            printf("                 -> BUSCAR  USUÁRIO <-                \n");
-            printf("======================================================\n");
+            exibir_cabecalho("-> BUSCAR USUÁRIO <-");
             printf("[!] ID inválido! [!]\n");
+            linha();
             printf("Pressione [ENTER] para continuar...\n");
-            printf("-------------------------------------------------------\n-> ");
+            linha();
             getchar();
             return;
         }
@@ -422,12 +419,9 @@ void buscar_usuario() {
         char username_busca[50];
 
         system("clear");
-        printf("======================================================\n");
-        printf("                 SISTEMA DE BIBLIOTECA                \n");
-        printf("                 -> BUSCAR  USUÁRIO <-                \n");
-        printf("======================================================\n");
+        exibir_cabecalho("-> BUSCAR USUÁRIO <-");
         printf("Digite o Nome de usuário que deseja buscar:\n");
-        printf("-------------------------------------------------------\n-> ");
+        linha();
 
         // coleta o nome de usuario que for inserido
         fgets(username_busca, sizeof(username_busca), stdin);
@@ -443,13 +437,10 @@ void buscar_usuario() {
     } 
     else {
         system("clear");
-        printf("======================================================\n");
-        printf("                 SISTEMA DE BIBLIOTECA                \n");
-        printf("                 -> BUSCAR  USUÁRIO <-                \n");
-        printf("======================================================\n");
+        exibir_cabecalho("-> BUSCAR USUÁRIO <-");
         printf("[!] Opção inválida! [!]\n");
+        linha();
         printf("Pressione [ENTER] para continuar...\n");
-        printf("-------------------------------------------------------\n-> ");
         getchar();
         return;
     }
@@ -457,23 +448,19 @@ void buscar_usuario() {
     // Exibe o resultado da busca
     system("clear");
     if (indice_encontrado != -1) {
-        printf("======================================================\n");
-        printf("                 SISTEMA DE BIBLIOTECA                \n");
-        printf("                -> USUÁRIO ENCONTRADO <-              \n");
-        printf("======================================================\n");
+        exibir_cabecalho("-> BUSCAR USUÁRIO <-");
+        printf("[+] Usuário encontrado! [+]\n");
+        linha();
         printf("ID:       %04d\n", armazenar[indice_encontrado].id);
         printf("Nome:     %s\n", armazenar[indice_encontrado].name);
         printf("Username: %s\n", armazenar[indice_encontrado].username);
         printf("Acesso:   %s\n", (armazenar[indice_encontrado].type == 1 ? "Administrador" : "Leitor Comum"));
-        printf("======================================================\n");
+        linha();
     } else {
         system("clear");
-        printf("======================================================\n");
-        printf("                 SISTEMA DE BIBLIOTECA                \n");
-        printf("                 -> BUSCAR  USUÁRIO <-                \n");
-        printf("======================================================\n");
+        exibir_cabecalho("-> BUSCAR USUÁRIO <-");
         printf("[!] Operador não localizado ou inativo no sistema. [!]\n");
-        printf("------------------------------------------------------\n");
+        linha();
     }
 
     printf("Pressione [ENTER] para voltar...");
@@ -486,23 +473,17 @@ void editar_usuario() {
 
     // grande printf inicial da tela de editar usuário
     system("clear");
-    printf("======================================================\n");
-    printf("                SISTEMA DE BIBLIOTECA                 \n");
-    printf("                -> EDITAR  USUÁRIO <-                 \n");
-    printf("======================================================\n");
+    exibir_cabecalho("-> EDITAR USUÁRIO <-");
     printf("Digite o ID do usuário que deseja editar:\n");
-    printf("------------------------------------------------------\n-> ");
+    linha(); printf("-> ");
 
     // coleta o id e ja verifica se a entrada é valida
     if (scanf("%d", &id_busca) != 1) {
         while (getchar() != '\n'); // limpa o buffer
         system("clear");
-        printf("======================================================\n");
-        printf("                 SISTEMA DE BIBLIOTECA                \n");
-        printf("                 -> EDITAR  USUÁRIO <-                \n");
-        printf("======================================================\n");
+        exibir_cabecalho("-> EDITAR USUÁRIO <-");
         printf("[!] ID inválido! Digite apenas números. [!]\n");
-        printf("------------------------------------------------------\n");
+        linha();
         printf("Pressione [ENTER] para voltar...");
         getchar();
         return;
@@ -522,12 +503,9 @@ void editar_usuario() {
     // tela de usuario nao encontrado
     if (indice == -1) {
         system("clear");
-        printf("======================================================\n");
-        printf("                 SISTEMA DE BIBLIOTECA                \n");
-        printf("                 -> EDITAR  USUÁRIO <-                \n");
-        printf("======================================================\n");
+        exibir_cabecalho("-> EDITAR USUÁRIO <-");
         printf("[!] Usuário não localizado ou inativo no sistema. [!]\n");
-        printf("------------------------------------------------------\n");
+        linha();
         printf("Pressione [ENTER] para voltar...");
         getchar();
         return;
@@ -536,12 +514,9 @@ void editar_usuario() {
     // tela de usuario root
     if (armazenar[indice].id == 1) {
         system("clear");
-        printf("======================================================\n");
-        printf("                 SISTEMA DE BIBLIOTECA                \n");
-        printf("                 -> EDITAR  USUÁRIO <-                \n");
-        printf("======================================================\n");
+        exibir_cabecalho("-> EDITAR USUÁRIO <-");
         printf("[!] Segurança: O usuário 'root' não pode ser alterado. [!]\n");
-        printf("------------------------------------------------------\n");
+        linha();
         printf("Pressione [ENTER] para voltar...");
         getchar();
         return;
@@ -550,13 +525,10 @@ void editar_usuario() {
     // tela de usuario que esta logado
     if (armazenar[indice].id == usuario_logado->id) {
         system("clear");
-        printf("======================================================\n");
-        printf("                 SISTEMA DE BIBLIOTECA                \n");
-        printf("                 -> EDITAR  USUÁRIO <-                \n");
-        printf("======================================================\n");
+        exibir_cabecalho("-> EDITAR USUÁRIO <-");
         printf("[!] Erro: Você não pode alterar ou remover seus próprios\n");
         printf("    dados por este painel administrativo. [!]\n");
-        printf("------------------------------------------------------\n");
+        linha();
         printf("Pressione [ENTER] para voltar...");
         getchar();
         return;
@@ -567,32 +539,26 @@ void editar_usuario() {
 
     // grande printf do painel de edicao
     system("clear");
-    printf("======================================================\n");
-    printf("                 SISTEMA DE BIBLIOTECA                \n");
-    printf("                -> PAINEL DE EDIÇÃO <-                \n");
-    printf("======================================================\n");
+    exibir_cabecalho("-> EDITAR USUÁRIO <-");
     printf("Nome:             %s\n", armazenar[indice].name);
     printf("Nome de Usuário:  %s\n", armazenar[indice].username);
     printf("Nivel de Acesso:  %s\n", (armazenar[indice].type == 1 ? "Administrador" : "Leitor Comum"));
-    printf("------------------------------------------------------\n");
+    linha();
     printf("Selecione a operação desejada:\n");
     printf("1. Alterar Nome Completo\n");
     printf("2. Alterar Nível de Acesso\n");
     printf("3. Remover Usuário\n");
     printf("0. Cancelar e Voltar\n");
-    printf("------------------------------------------------------\n-> ");
+    linha(); printf("-> ");
 
     // coleta a opção escolhida e ja verifica se é valida
     if (scanf("%d", &opcao_mod) != 1) {
         while (getchar() != '\n'); // limpa o buffer
 
         system("clear");
-        printf("======================================================\n");
-        printf("                 SISTEMA DE BIBLIOTECA                \n");
-        printf("                -> PAINEL DE EDIÇÃO <-                \n");
-        printf("======================================================\n");
+        exibir_cabecalho("-> EDITAR USUÁRIO <-");
         printf("[!] Opção inválida! Digite apenas números. [!]\n");
-        printf("-------------------------------------------------------\n");
+        linha();
         printf("Pressione [ENTER] para voltar...");
         getchar();
         return;
@@ -607,28 +573,22 @@ void editar_usuario() {
 
         // grande printf da tela de alterar nome
         system("clear");
-        printf("======================================================\n");
-        printf("                 SISTEMA DE BIBLIOTECA                \n");
-        printf("             -> ALTERAR NOME COMPLETO <-              \n");
-        printf("======================================================\n");
+        exibir_cabecalho("-> ALTERAR NOME COMPLETO <-");
         printf("Nome atual: %s\n", armazenar[indice].name);
-        printf("------------------------------------------------------\n");
-        printf("Digite o novo nome completo:\n");
-        printf("------------------------------------------------------\n-> ");
-
+        linha();
+        printf("Digite o novo Nome completo:\n");
+        linha(); printf("-> ");
+        
         // coleta o nome nome complet
         fgets(novo_nome, sizeof(novo_nome), stdin);
         novo_nome[strcspn(novo_nome, "\n")] = '\0'; // tira o '\n' do fim do nome
 
         // tratamento de erro caso tenha deixado o nome vazio
         if (campo_vazio(novo_nome)) {
-            system("clear");
-            printf("======================================================\n");
-            printf("                 SISTEMA DE BIBLIOTECA                \n");
-            printf("             -> ALTERAR NOME COMPLETO <-              \n");
-            printf("======================================================\n");
+            system("clear");    
+            exibir_cabecalho("-> ALTERAR NOME COMPLETO <-");
             printf("\n[!] O nome não pode ser vazio! Operação cancelada. [!]\n");
-            printf("------------------------------------------------------\n");
+            linha();
             printf("Pressione [ENTER] para voltar...");
             getchar();
             return;
@@ -648,26 +608,20 @@ void editar_usuario() {
 
         // grande printf da tela de alterar nivel de acesso da conta
         system("clear");
-        printf("======================================================\n");
-        printf("                 SISTEMA DE BIBLIOTECA                \n");
-        printf("             -> ALTERAR NIVEL DE ACESSO <-            \n");
-        printf("======================================================\n");
+        exibir_cabecalho("-> ALTERAR NIVEL DE ACESSO <-");
         printf("Nome de Usuário: %s\n", armazenar[indice].username);
         printf("Acesso Atual:    %s\n", (armazenar[indice].type == 1 ? "Administrador" : "Leitor Comum"));
-        printf("------------------------------------------------------\n");
+        linha();
         printf("Escolha o novo nível de acesso:\n");
         printf("1. Administrator\n");
         printf("2. Leitor Comum\n");
-        printf("------------------------------------------------------\n-> ");
-
+        linha();
+        
         // coleta a opção escolhida e ja verific se é valida
         if (scanf("%d", &novo_tipo) != 1 || (novo_tipo < 1 || novo_tipo > 2)) {
             while (getchar() != '\n'); 
             system("clear");
-            printf("======================================================\n");
-            printf("                 SISTEMA DE BIBLIOTECA                \n");
-            printf("             -> ALTERAR NIVEL DE ACESSO <-            \n");
-            printf("======================================================\n");
+            exibir_cabecalho("-> ALTERAR NIVEL DE ACESSO <-");
             printf("[!] Opção inválida! Nenhuma modificação salva. [!]    \n");
             printf("------------------------------------------------------\n");
             printf("\nPressione [ENTER] para voltar...");
@@ -689,17 +643,14 @@ void editar_usuario() {
 
         // grande printf da tela de remover usuario
         system("clear");
-        printf("======================================================\n");
-        printf("                SISTEMA DE BIBLIOTECA                 \n");
-        printf("               -> REMOÇÃO DE USUÁRIO <-               \n");
-        printf("======================================================\n");
+        exibir_cabecalho("-> REMOVER USUÁRIO <-");
         printf("Nome:             %s\n", armazenar[indice].name);
         printf("Nome de Usuário:  %s\n", armazenar[indice].username);
         printf("Nivel de Acesso:  %s\n", (armazenar[indice].type == 1 ? "Administrador" : "Leitor Comum"));
-        printf("------------------------------------------------------\n");
+        linha();
         printf("Tem certeza que deseja remover o usuário? (s/n)\n");
-        printf("------------------------------------------------------\n-> ");
-        
+        linha(); printf("-> ");
+
         scanf(" %c", &confirmacao); // coleta a opção escolhida
         while (getchar() != '\n'); // limpa o buffe
 
@@ -713,26 +664,20 @@ void editar_usuario() {
         // se digitou n ou N ele cancela
         else if (confirmacao == 'n' || confirmacao == 'N') {
             // grande printf da tela de remover usuario
-            system("clear");
-            printf("======================================================\n");
-            printf("                SISTEMA DE BIBLIOTECA                 \n");
-            printf("               -> REMOÇÃO DE USUÁRIO <-               \n");
-            printf("======================================================\n");
+            system("clear");        
+            exibir_cabecalho("-> REMOVER USUÁRIO <-");
             printf("[i] Remoção do usuário '%s' cancelada. [i]\n", armazenar[indice].username);
-            printf("------------------------------------------------------\n");
+            linha();
             printf("Pressione [ENTER] para continuar...");
             getchar();
             return;
         }
         // tratamento para caso digite qualquer outra tecla inválida
         else {
-            system("clear");
-            printf("======================================================\n");
-            printf("                SISTEMA DE BIBLIOTECA                 \n");
-            printf("               -> REMOÇÃO DE USUÁRIO <-               \n");
-            printf("======================================================\n");
+            system("clear");            
+            exibir_cabecalho("-> REMOVER USUÁRIO <-");
             printf("[!] Opção inválida! Operação cancelada. [!]\n");
-            printf("------------------------------------------------------\n");
+            linha();
             printf("Pressione [ENTER] para voltar...");
             getchar();
             return;
@@ -741,12 +686,9 @@ void editar_usuario() {
     // caso digitou uma opção invalida no submenu de gestao de usuarios
     } else {
         system("clear");
-        printf("======================================================\n");
-        printf("                 SISTEMA DE BIBLIOTECA                \n");
-        printf("                -> PAINEL DE EDIÇÃO <-                \n");
-        printf("======================================================\n");
-        printf("[!] Operação cancelada. [!]                           \n");
-        printf("------------------------------------------------------\n");
+        exibir_cabecalho("-> EDITAR USUÁRIO <-");
+        printf("[!] Operação cancelada. [!]\n");
+        linha();
         printf("Pressione [ENTER] para voltar...");
         getchar();
         return;
@@ -769,16 +711,13 @@ void editar_usuario() {
 
     // tela de sucesso
     system("clear");
-    printf("======================================================\n");
-    printf("                 SISTEMA DE BIBLIOTECA                \n");
-    printf("                -> OPERAÇÃO CONCLUÍDA <-              \n");
-    printf("======================================================\n");
+    exibir_cabecalho("-> REMOVER USUÁRIO <-");
     if (opcao_mod == 3) {
         printf("[+] Conta deletada com sucesso [+]    \n");
     } else {
         printf("[+] Alterações salvas com sucesso [+] \n");
     }
-    printf("------------------------------------------------------\n");
+    linha();
     printf("Pressione [ENTER] para voltar...");
     getchar();
 }

@@ -8,5 +8,7 @@ int menu_logs();
 void submenu_livros();
 void submenu_emprestimos();
 void submenu_usuarios();
+void exibir_cabecalho(char *subtitulo);
+void linha();
 
 #endif

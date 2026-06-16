@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "livro.h"
+#include "menu.h"
 
 // Criando o local pra alocação dos livros
 Livro acervo[100];
@@ -48,16 +49,14 @@ void inicializar_livros() {
     armazenar_livros(); // Salva a lista inicial
 }
 
-// Lista os livros ativos no sistema
+// lista os livros ativos no sistema
 void listar_livros() {
     system("clear");
-    printf("=================================================================================\n");
-    printf("                              ACERVO DA BIBLIOTECA                               \n");
-    printf("=================================================================================\n");
+    exibir_cabecalho("-> ACERVO BIBLIOTECA <-");
 
     int exibidos = 0;
     printf("%-4s | %-28s | %-25s | %-5s\n", "ID", "TÍTULO", "AUTOR", "QTD");
-    printf("---------------------------------------------------------------------------------\n");
+    linha();
 
     for (int i = 0; i < totallivros; i++) {
         // Só mostra o livro se ele estiver ativo (active == 1)
@@ -75,19 +74,18 @@ void listar_livros() {
         printf("\n[!] Nenhum livro disponível no acervo no momento. [!]\n");
     }
 
-    printf("---------------------------------------------------------------------------------\n");
-    printf("\nPressione [ENTER] para voltar ao menu...");
+    linha();
+    printf("Pressione [ENTER] para voltar ao menu...");
     getchar(); 
 }
-
 // Cadastro de novos livros (Opção exclusiva do Admin/Root)
 void cadastrar_livro() {
     system("clear");
-    printf("\n---- CADASTRAR NOVO LIVRO ----\n");
-
+    exibir_cabecalho("-> CADASTRAR NOVO LIVRO <-");
     if (totallivros >= 100) {
         printf("[!] Acervo cheio! Não é possível cadastrar mais livros. [!]\n");
-        printf("\nPressione [ENTER] para voltar...");
+        linha();
+        printf("Pressione [ENTER] para voltar...");
         getchar();
         return;
     }
@@ -96,30 +94,53 @@ void cadastrar_livro() {
     novo.id = totallivros + 1; // Id sequencial
 
     // Coletando o nome do livro
-    printf("Título do livro:\n-> ");
+    printf("Título do livro:\n");
+    linha(); printf("-> ");
     fgets(novo.titulo, sizeof(novo.titulo), stdin);
-    novo.titulo[strcspn(novo.titulo, "\n")] = '\0';
+    novo.titulo[strcspn(novo.titulo, "\n")] = '\0'; // tirando o '\n' final
 
     // Coletando o autor do livro
-    printf("Autor:\n-> ");
+    system("clear");
+    exibir_cabecalho("-> CADASTRAR NOVO LIVRO <-");
+    printf("Título do Livro: %s\n", novo.titulo);
+    linha();
+    printf("Autor:\n");
+    linha(); printf("-> ");
     fgets(novo.autor, sizeof(novo.autor), stdin);
-    novo.autor[strcspn(novo.autor, "\n")] = '\0';
+    novo.autor[strcspn(novo.autor, "\n")] = '\0'; // tirando o '\n' do final
 
-    // Coletando o gênero do livro
-    printf("Gênero:\n-> ");
+    // Coletando o genero do livro
+    system("clear");
+    exibir_cabecalho("-> CADASTRAR NOVO LIVRO <-");
+    printf("Título do Livro: %s\n", novo.titulo);
+    printf("Autor: %s\n", novo.autor);
+    linha();
+    printf("Gênero:\n");
+    linha(); printf("-> ");
     fgets(novo.genero, sizeof(novo.genero), stdin);
-    novo.genero[strcspn(novo.genero, "\n")] = '\0';
+    novo.genero[strcspn(novo.genero, "\n")] = '\0'; // tirando o '\n' do final
 
     // Coletando a quantidade de cópias do livro
-    printf("Quantidade de exemplares:\n-> ");
-    if (scanf("%d", &novo.quantidade) != 1) {
-        while (getchar() != '\n');
-        printf("\n[!] Erro: Quantidade inválida! Cadastro cancelado. [!]\n");
-        printf("\nPressione [ENTER]... ");
+    system("clear"); // Adicionado para limpar a tela e manter o padrão visual
+    exibir_cabecalho("-> CADASTRAR NOVO LIVRO <-");
+    printf("Título do Livro: %s\n", novo.titulo);
+    printf("Autor: %s\n", novo.autor);
+    printf("Gênero: %s\n", novo.genero);
+    linha();
+    printf("Quantidade de exemplares:\n");
+    linha(); printf("-> ");
+    
+    if (scanf("%d", &novo.quantidade) != 1 || novo.quantidade < 0) {
+        while (getchar() != '\n'); // limpa o buffer
+        system("clear");
+        exibir_cabecalho("-> CADASTRO DE LIVRO <-");
+        printf("[!] Erro: Quantidade inválida! Cadastro cancelado. [!]\n");
+        linha();
+        printf("Pressione [ENTER] para voltar... ");
         getchar();
         return;
     }
-    while (getchar() != '\n'); // Limpa o buffer do scanf
+    while (getchar() != '\n'); // limpa o buffer
 
     novo.active = 1; // O livro cadastrado entra como ativo
 
@@ -127,8 +148,18 @@ void cadastrar_livro() {
     totallivros++;
     armazenar_livros();
 
-    printf("\n[+] Livro '%s' cadastrado com sucesso! (ID: %d) [+]\n", novo.titulo, novo.id);
-    printf("\nPressione [ENTER] para continuar...");
+    // tela de sucesso
+    system("clear");
+    exibir_cabecalho("-> CADASTRAR NOVO LIVRO <-");
+    printf("[+] LIVRO CADASTRADO COM SUCESSO! [+]\n");
+    linha();
+    printf("> ID do Livro:   #%03d\n", novo.id);
+    printf("> Título:        %s\n", novo.titulo);
+    printf("> Autor:         %s\n", novo.autor);
+    printf("> Gênero:        %s\n", novo.genero);
+    printf("> Exemplares:    %d\n", novo.quantidade);
+    linha();
+    printf("Pressione [ENTER] para voltar...");
     getchar();
 }
 
@@ -137,99 +168,115 @@ void buscar_livro() {
     int tipo_busca = 0;
 
     system("clear");
-    printf("=======================================\n");
-    printf("           BUSCA DE LIVROS             \n");
-    printf("=======================================\n");
+    exibir_cabecalho("-> BUSCAR LIVRO <-");
     printf("Como deseja buscar o livro?\n");
-    printf("1. Buscar por ID (Exata)\n");
-    printf("2. Buscar por Título (Nome)\n");
-    printf("-> ");
+    printf("1. Buscar por ID\n");
+    printf("2. Buscar pelo Título\n");
+    linha(); printf("-> ");
 
     // Seletor para escolher se vai buscar por id ou nome
     if (scanf("%d", &tipo_busca) != 1) {
         while (getchar() != '\n'); // Limpa o buffer
         system("clear");
+        exibir_cabecalho("-> BUSCAR LIVRO <-");
         printf("[!] Entrada inválida! Digite apenas números. [!]\n");
-        printf("\nPressione [ENTER] para voltar...");
+        linha();
+        printf("Pressione [ENTER] para voltar...");
         getchar();
         return;
     }
     while (getchar() != '\n'); // Limpa o buffer
 
+    // busca pelo id
     if (tipo_busca == 1) {
-        // --- BUSCA POR ID ---
         int id_busca = 0;
         system("clear");
-        printf("---- BUSCA POR ID ----\n");
-        printf("Digite o ID do livro:\n-> ");
+        exibir_cabecalho("-> BUSCAR LIVRO <-");
+        printf("Digite o ID do livro:\n");
+        linha(); printf("-> ");
+
+        // le a entrada e ja olha se é valida
         if (scanf("%d", &id_busca) != 1) {
             while (getchar() != '\n');
-            printf("\n[!] ID inválido! [!]\n");
-            printf("\nPressione [ENTER] para voltar...");
+            system("clear");
+            exibir_cabecalho("-> BUSCAR LIVRO <-");
+            printf("[!] ID inválido! Digite apenas números![!]\n");
+            linha();
+            printf("Pressione [ENTER] para voltar...");
             getchar();
             return;
         }
         while (getchar() != '\n'); // Limpa o buffer
 
         system("clear");
-        printf("=================================================================================\n");
-        printf("                               RESULTADO DA BUSCA                                \n");
-        printf("=================================================================================\n");
-        printf("%-4s | %-28s | %-25s | %-5s\n", "ID", "TÍTULO", "AUTOR", "QTD");
-        printf("---------------------------------------------------------------------------------\n");
+        exibir_cabecalho("-> RESULTADO DA BUSCA <-");
+        printf("%-5s | %-32s | %-25s | %-5s\n", "ID", "TÍTULO", "AUTOR", "QTD");
+        linha();
 
-        int encontrado = 0;
+        int encontrado = 0; 
         for (int i = 0; i < totallivros; i++) {
             if (acervo[i].id == id_busca && acervo[i].active == 1) {
-                printf("%-4d | %-28.28s | %-25.25s | %-5d\n",
-                       acervo[i].id, acervo[i].titulo, acervo[i].autor, acervo[i].quantidade);
+                printf("#%04d | %-32.32s | %-25.25s | %-5d\n",
+                    acervo[i].id, 
+                    acervo[i].titulo, 
+                    acervo[i].autor, 
+                    acervo[i].quantidade);
                 encontrado = 1;
                 break;
             }
         }
 
         if (!encontrado) {
-            printf("\n[!] Nenhum livro ativo encontrado com o ID %d. [!]\n", id_busca);
+            printf("[!] Nenhum livro ativo encontrado com o ID %d. [!]\n", id_busca);
         }
-        printf("---------------------------------------------------------------------------------\n");
+        linha();
 
+    // buscar pelo titulo
     } else if (tipo_busca == 2) {
-        // --- BUSCA POR NOME ---
         char termo_busca[100];
         system("clear");
-        printf("---- BUSCA POR TÍTULO ----\n");
-        printf("Digite o termo ou nome do livro:\n-> ");
+        exibir_cabecalho("-> BUSCAR LIVRO <-");
+        printf("Digite o termo ou nome do livro:\n");
+        linha(); printf("-> ");
+        // coletando o titulo inserido
         fgets(termo_busca, sizeof(termo_busca), stdin);
         termo_busca[strcspn(termo_busca, "\n")] = '\0';
 
         //Resultado da busca
         system("clear");
-        printf("=================================================================================\n");
-        printf("                               RESULTADO DA BUSCA                                \n");
-        printf("=================================================================================\n");
-        printf("%-4s | %-28s | %-25s | %-5s\n", "ID", "TÍTULO", "AUTOR", "QTD");
-        printf("---------------------------------------------------------------------------------\n");
+        exibir_cabecalho("-> RESULTADO DA BUSCA <-");
+        printf("%-5s | %-32s | %-25s | %-5s\n", "ID", "TÍTULO", "AUTOR", "QTD");
+        linha();
 
         int encontrados = 0;
         for (int i = 0; i < totallivros; i++) {
-            // strstr verifica se termo_busca é o titulo do livro
+            // verifica se termo_busca é o titulo do livro
             if (acervo[i].active == 1 && strstr(acervo[i].titulo, termo_busca) != NULL) {
-                printf("%-4d | %-28.28s | %-25.25s | %-5d\n", 
-                       acervo[i].id, acervo[i].titulo, acervo[i].autor, acervo[i].quantidade);
+                printf("#%04d | %-32.32s | %-25.25s | %-5d\n", 
+                       acervo[i].id, 
+                       acervo[i].titulo, 
+                       acervo[i].autor, 
+                       acervo[i].quantidade);
                 encontrados++;
             }
         }
 
         if (encontrados == 0) {
-            printf("\n[!] Nenhum livro encontrado com o termo '%s'. [!]\n", termo_busca);
+            printf("[!] Nenhum livro encontrado com o termo '%s'. [!]\n", termo_busca);
         }
-        printf("---------------------------------------------------------------------------------\n");
+        linha();
 
     } else {
-        printf("\n[!] Opção de busca inválida! [!]\n");
+        system("clear");
+        exibir_cabecalho("-> BUSCAR LIVRO <-");
+        printf("[!] Opção de busca inválida! [!]\n");
+        linha();
+        printf("Pressione [ENTER] para continuar...");
+        getchar();
+        return; 
     }
 
-    printf("\nPressione [ENTER] para voltar ao menu...");
+    printf("Pressione [ENTER] para voltar ao menu...");
     getchar();
 }
 
@@ -238,22 +285,24 @@ void editar_livro() {
     int id_busca = 0;
     int indice = -1;
     char entrada[20];
-    int nova_quantidade = 0;
+    int opcao_campo = -1;
 
     system("clear");
-    printf("====================================\n");
-    printf("            EDITAR LIVRO            \n");
-    printf("====================================\n");
-    printf("Digite o ID do livro que deseja editar:\n-> ");
+    exibir_cabecalho("-> EDITAR LIVRO <-");
+    printf("Digite o ID do livro que deseja editar:\n");
+    linha(); printf("-> ");
 
     if (scanf("%d", &id_busca) != 1) {
-        while (getchar() != '\n');
-        printf("\n[!] ID inválido! [!]\n");
-        printf("\nPressione [ENTER] para voltar...");
+        while (getchar() != '\n'); // limpa o buffer
+        system("clear");
+        exibir_cabecalho("-> EDITAR LIVRO <-");
+        printf("[!] ID inválido! Digite apenas números. [!]\n");
+        linha();
+        printf("Pressione [ENTER] para voltar...");
         getchar();
         return;
     }
-    while (getchar() != '\n');
+    while (getchar() != '\n'); // limpar o buffer
 
     for (int i = 0; i < totallivros; i++) {
         if (acervo[i].id == id_busca && acervo[i].active == 1) {
@@ -263,69 +312,149 @@ void editar_livro() {
     }
 
     if (indice == -1) {
-        printf("\n[!] Livro não encontrado ou removido! [!]\n");
-        printf("\nPressione [ENTER] para voltar...");
+        system("clear");
+        exibir_cabecalho("-> EDITAR LIVRO <-");
+        printf("[!] Livro não encontrado ou removido! [!]\n");
+        linha();
+        printf("Pressione [ENTER] para voltar...");
         getchar();
         return;
     }
 
-    printf("\nLivro encontrado:\n");
-    printf("ID: %d\n", acervo[indice].id);
-    printf("Título atual: %s\n", acervo[indice].titulo);
-    printf("Autor atual: %s\n", acervo[indice].autor);
-    printf("Gênero atual: %s\n", acervo[indice].genero);
-    printf("Quantidade atual: %d\n", acervo[indice].quantidade);
+    // loop pra escolher oq quer editar
+    while (1) {
+        system("clear");
+        exibir_cabecalho("-> EDITAR LIVRO <-");
+        printf("[+] Livro Selecionado [+]\n");
+        linha();
+        printf("> ID: %d\n", acervo[indice].id);
+        printf("> 1. Título:     %s\n", acervo[indice].titulo);
+        printf("> 2. Autor:      %s\n", acervo[indice].autor);
+        printf("> 3. Gênero:     %s\n", acervo[indice].genero);
+        printf("> 4. Quantidade: %d\n", acervo[indice].quantidade);
+        printf("> 0. Voltar\n");
+        linha();    
+        printf("O que deseja alterar? (0-4):\n");
+        linha(); printf("-> ");
 
-    printf("\nNovo título:\n-> ");
-    fgets(acervo[indice].titulo, sizeof(acervo[indice].titulo), stdin);
-    acervo[indice].titulo[strcspn(acervo[indice].titulo, "\n")] = '\0';
+        if (scanf("%d", &opcao_campo) != 1) {
+            while (getchar() != '\n');
+            system("clear");
+            exibir_cabecalho("-> EDITAR LIVRO <-");
+            printf("[!] Entrada inválida! Digite um número de 0 a 4. [!]\n");
+            linha();
+            printf("Pressione [ENTER] para continuar...");
+            getchar();
+            continue;
+        }
+        while (getchar() != '\n'); // Limpa o buffer
 
-    printf("Novo autor:\n-> ");
-    fgets(acervo[indice].autor, sizeof(acervo[indice].autor), stdin);
-    acervo[indice].autor[strcspn(acervo[indice].autor, "\n")] = '\0';
+        if (opcao_campo == 0) {
+            break; // sai do loop e vai para a parte de salvar
+        }
 
-    printf("Novo gênero:\n-> ");
-    fgets(acervo[indice].genero, sizeof(acervo[indice].genero), stdin);
-    acervo[indice].genero[strcspn(acervo[indice].genero, "\n")] = '\0';
+        // executa a alteração com base na escolha
+        // muda o titulo
+        if (opcao_campo == 1) {
+            system("clear");
+            exibir_cabecalho("-> ALTERAR TÍTULO <-");
+            printf("Título Atual: %s\n", acervo[indice].titulo);
+            linha();
+            printf("Digite o Novo Título:\n");
+            linha(); printf("-> ");
+            fgets(acervo[indice].titulo, sizeof(acervo[indice].titulo), stdin);
+            acervo[indice].titulo[strcspn(acervo[indice].titulo, "\n")] = '\0';
+            
+        } 
+        // muda o autor
+        else if (opcao_campo == 2) {
+            system("clear");
+            exibir_cabecalho("-> ALTERAR AUTOR <-");
+            printf("Autor Atual: %s\n", acervo[indice].autor);
+            linha();
+            printf("Digite o Novo Autor:\n");
+            linha(); printf("-> ");
+            fgets(acervo[indice].autor, sizeof(acervo[indice].autor), stdin);
+            acervo[indice].autor[strcspn(acervo[indice].autor, "\n")] = '\0';
+            
+        } 
+        // muda o genero
+        else if (opcao_campo == 3) {
+            system("clear");
+            exibir_cabecalho("-> ALTERAR GÊNERO <-");
+            printf("Gênero Atual: %s\n", acervo[indice].genero);
+            linha();
+            printf("Digite o Novo Gênero:\n");
+            linha(); printf("-> ");
+            fgets(acervo[indice].genero, sizeof(acervo[indice].genero), stdin);
+            acervo[indice].genero[strcspn(acervo[indice].genero, "\n")] = '\0';
+            
+        } 
+        // muda a quantidade
+        else if (opcao_campo == 4) {
+            int nova_quantidade = 0;
+            system("clear");
+            exibir_cabecalho("-> ALTERAR QUANTIDADE <-");
+            printf("Quantidade Atual: %d\n", acervo[indice].quantidade);
+            linha();
+            printf("Digite a Nova Quantidade:\n");
+            linha(); printf("-> ");
+            fgets(entrada, sizeof(entrada), stdin);
 
-    printf("Nova quantidade:\n-> ");
-    fgets(entrada, sizeof(entrada), stdin);
-
-    if (sscanf(entrada, "%d", &nova_quantidade) != 1 || nova_quantidade < 0) {
-        printf("\n[!] Quantidade inválida! Edição cancelada. [!]\n");
-        printf("\nPressione [ENTER] para voltar...");
-        getchar();
-        return;
+            if (sscanf(entrada, "%d", &nova_quantidade) != 1 || nova_quantidade < 0) {
+                system("clear");
+                exibir_cabecalho("-> EDITAR USUÁRIO <-");
+                printf("[!] Quantidade inválida! Alteração rejeitada. [!]\n");
+                linha();
+                printf("Pressione [ENTER] para continuar...");
+                getchar();
+            } else {
+                acervo[indice].quantidade = nova_quantidade;
+            }
+        } 
+        // tratamento de erro
+        else {
+            system("clear");
+            exibir_cabecalho("-> EDITAR USUÁRIO <-");
+            printf("[!] Opção inválida! Escolha de 0 a 4. [!]\n");
+            linha();
+            printf("Pressione [ENTER] para continuar...");
+            getchar();
+        }
     }
 
-    acervo[indice].quantidade = nova_quantidade;
-
+    // Fora do loop: Salva as alterações feitas no arquivo
+    system("clear");
+    exibir_cabecalho("-> SALVANDO ALTERAÇÕES <-");
     if (armazenar_livros()) {
-        printf("\n[+] Livro editado com sucesso! [+]\n");
+        printf("[+] Alterações salvas com sucesso no banco de dados! [+]\n");
     } else {
-        printf("\n[!] Erro ao salvar alterações do livro! [!]\n");
+        printf("[!] Erro crítico ao salvar as alterações no arquivo! [!]\n");
     }
 
-    printf("\nPressione [ENTER] para continuar...");
+    linha();
+    printf("Pressione [ENTER] para voltar ao menu...");
     getchar();
 }
 
-// Remove o livro do acervo usando exclusão lógica: active = 0
+// remove o livro, active = 0
 void remover_livro() {
     int id_busca = 0;
     int indice = -1;
     char confirmacao = 'n';
 
     system("clear");
-    printf("====================================\n");
-    printf("            REMOVER LIVRO           \n");
-    printf("====================================\n");
-    printf("Digite o ID do livro que deseja remover:\n-> ");
+    exibir_cabecalho("-> REMOVER LIVRO <-");
+    printf("Digite o ID do livro que deseja remover:\n");
+    linha(); printf("-> ");
 
     if (scanf("%d", &id_busca) != 1) {
         while (getchar() != '\n');
-        printf("\n[!] ID inválido! [!]\n");
-        printf("\nPressione [ENTER] para voltar...");
+        system("clear");
+        exibir_cabecalho("-> REMOVER LIVRO <-");
+        printf("[!] ID inválido! [!]\n");
+        linha();
+        printf("Pressione [ENTER] para voltar...");
         getchar();
         return;
     }
@@ -339,35 +468,50 @@ void remover_livro() {
     }
 
     if (indice == -1) {
-        printf("\n[!] Livro não encontrado ou já removido! [!]\n");
-        printf("\nPressione [ENTER] para voltar...");
+        system("clear");
+        exibir_cabecalho("-> REMOVER LIVRO <-");
+        printf("[!] Livro não encontrado ou já removido! [!]\n");
+        linha();
+        printf("Pressione [ENTER] para voltar...");
         getchar();
         return;
     }
 
-    printf("\nLivro encontrado:\n");
-    printf("ID: %d\n", acervo[indice].id);
-    printf("Título: %s\n", acervo[indice].titulo);
-    printf("Autor: %s\n", acervo[indice].autor);
-    printf("Quantidade: %d\n", acervo[indice].quantidade);
-
-    printf("\nTem certeza que deseja remover este livro? (s/n)\n-> ");
+    system("clear");
+    exibir_cabecalho("-> REMOVER LIVRO <-");
+    printf("[+] Livro encontrado! [+]\n");
+    linha();
+    printf("> ID: %d\n", acervo[indice].id);
+    printf("> Título: %s\n", acervo[indice].titulo);
+    printf("> Autor: %s\n", acervo[indice].autor);
+    printf("> Quantidade: %d\n", acervo[indice].quantidade);
+    linha();
+    printf("Tem certeza que deseja remover este livro? (s/n)\n");
+    linha(); printf("-> ");
     scanf(" %c", &confirmacao);
-    while (getchar() != '\n');
+    while (getchar() != '\n'); // limpa o buffer
 
     if (confirmacao == 's' || confirmacao == 'S') {
         acervo[indice].active = 0;
-
         if (armazenar_livros()) {
-            printf("\n[+] Livro removido com sucesso! [+]\n");
+            system("clear");
+            exibir_cabecalho("-> REMOVER LIVRO <-");
+            printf("[+] Livro removido com sucesso! [+]\n");
+            linha();
         } else {
-            printf("\n[!] Erro ao salvar remoção do livro! [!]\n");
+            system("clear");
+            exibir_cabecalho("-> REMOVER LIVRO <-");
+            printf("[!] Erro ao salvar remoção do livro! [!]\n");
+            linha();    
         }
     } else {
-        printf("\n[i] Remoção cancelada. [i]\n");
+        system("clear");
+        exibir_cabecalho("-> REMOVER LIVRO <-");
+        printf("[i] Remoção cancelada. [i]\n");
+        linha();
     }
 
-    printf("\nPressione [ENTER] para continuar...");
+    printf("Pressione [ENTER] para continuar...");
     getchar();
 }
 
