@@ -6,13 +6,11 @@ set(CMAKE_C_STANDARD 11)
 include_directories(include)
 
 add_executable(sistema_gest_o_biblioteca
-        include/arquivos.h
         include/emprestimo.h
         include/livro.h
         include/menu.h
         include/relatorios.h
         include/usuario.h
-        src/arquivos.c
         src/emprestimo.c
         src/livro.c
         src/main.c

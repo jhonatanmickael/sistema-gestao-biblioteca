@@ -11,19 +11,21 @@ typedef struct {
     int active; // 1 para ativo, 0 se for deletado no futuro
 } Livro;
 
-// Transformando em variaveis globais
+// variaveis globais
 extern Livro acervo[100];
 extern int totallivros;
 
 // Declarando as funções
 void inicializar_livros();
+int armazenar_livros();
+int carregar_livros();
+
+void submenu_livros_adm();
+
 void listar_livros();
 void cadastrar_livro();
 void buscar_livro();
-void menu_livros_adm();
 void editar_livro();
 void remover_livro();
-int armazenar_livros();
-int carregar_livros();
 
 #endif

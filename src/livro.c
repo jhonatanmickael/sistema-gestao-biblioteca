@@ -233,47 +233,6 @@ void buscar_livro() {
     getchar();
 }
 
-
-// Submenu administrativo para gerenciar o acervo de livros
-void menu_livros_adm() {
-    int opcao = 0;
-
-    while (1) {
-        system("clear");
-        printf("====================================\n");
-        printf("          GERENCIAR LIVROS          \n");
-        printf("====================================\n");
-        printf("1. Cadastrar livro\n");
-        printf("2. Editar livro\n");
-        printf("3. Remover livro\n");
-        printf("0. Voltar\n");
-        printf("------------------------------------\n-> ");
-
-        if (scanf("%d", &opcao) != 1) {
-            while (getchar() != '\n');
-            printf("\n[!] Digite apenas números! [!]\n");
-            printf("\nPressione [ENTER] para continuar...");
-            getchar();
-            continue;
-        }
-        while (getchar() != '\n');
-
-        if (opcao == 0) {
-            break;
-        } else if (opcao == 1) {
-            cadastrar_livro();
-        } else if (opcao == 2) {
-            editar_livro();
-        } else if (opcao == 3) {
-            remover_livro();
-        } else {
-            printf("\n[!] Opção inválida! [!]\n");
-            printf("\nPressione [ENTER] para continuar...");
-            getchar();
-        }
-    }
-}
-
 // Permite ao administrador editar os dados de um livro ativo
 void editar_livro() {
     int id_busca = 0;

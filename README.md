@@ -24,29 +24,34 @@ O projeto aplica em sua construção os seguintes conceitos técnicos fundamenta
 
 A árvore do diretório do projeto está organizada seguindo os padrões recomendados para a linguagem C, separando definições de cabeçalhos, códigos de implementação e os arquivos físicos de dados:
 
-```text
-sistema-gestao-biblioteca/
-│
-├── .gitignore             # Arquivo de mapeamento para ignorar binários e logs no Git
-├── CMakeLists.txt         # Configuração de automação de build do CMake
-├── README.md              # Documentação oficial do projeto
-│
-├── include/               # Arquivos de cabeçalho (.h) - Protótipos e Structs
-│   ├── emprestimo.h
-│   ├── livro.h
-│   ├── menu.h
-│   ├── relatorios.h
-│   └── usuario.h
-│
-├── src/                   # Código-fonte funcional (.c) - Lógica de Negócio
-│   ├── emprestimo.c
-│   ├── livro.c
-│   ├── main.c
-│   ├── menu.c
-│   └── usuario.c
-│
-└── data/                  # Diretório reservado para persistência de dados
-    └── .gitkeep           # Arquivo de preservação da pasta no controle de versão
+```text 
+    sistema-gestao-biblioteca/
+    │
+    ├── .gitignore             # Ignora binários e logs locais no Git
+    ├── CMakeLists.txt         # Configuração de automação de build do CMake
+    ├── README.md              # Documentação oficial do projeto
+    │
+    ├── include/               # Arquivos de cabeçalho (.h) - Protótipos e Structs
+    │   ├── emprestimo.h       # Estrutura de empréstimos e protótipos de locação
+    │   ├── livro.h            # Estrutura de livros e protótipos de acervo
+    │   ├── menu.h             # Protótipos de navegação e interfaces do terminal
+    │   ├── relatorios.h       # Protótipo de auditoria e histórico do sistema
+    │   └── usuario.h          # Estrutura de usuários e protótipos de autenticação
+    │
+    ├── src/                   # Código-fonte funcional (.c) - Lógica de Negócio
+    │   ├── emprestimo.c       # Regras de empréstimos, devoluções e listagens
+    │   ├── livro.c            # Controle de estoque, cadastro, edição e remoção de livros
+    │   ├── main.c             # Entrada do programa, carga de dados e inicialização
+    │   ├── menu.c             # Implementação visual dos menus e fluxos de navegação
+    │   ├── relatorios.c       # Manipulação de registros e logs no arquivo de texto
+    │   └── usuario.c          # Autenticação, controle de sessão e cadastro de usuários
+    │
+    └── data/                  # Diretório reservado para persistência de dados
+        ├── .gitkeep           # Preserva a pasta vazia no controle de versão do Git
+        ├── usuarios.dat       # Base de dados binária dos usuários do sistema
+        ├── livros.dat         # Base de dados binária do acervo de livros
+        ├── emprestimos.dat    # Registro binário das operações de empréstimos
+        └── historico.log      # Arquivo de texto com o histórico de logs do sistema
 ```
 
 ## Como Compilar e Executar (Via CMake)

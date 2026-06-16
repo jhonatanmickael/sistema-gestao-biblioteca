@@ -5,17 +5,18 @@
 #include "menu.h"
 #include "livro.h"
 #include "emprestimo.h"
-    
+
 // tela de cadastro e entrada
 void menu_inicial () {
     int select = 0;
+
     while (1) {
-        system("clear");
         // grande printf da tela e cadastro
+        system("clear");
         printf("====================================================\n");
         printf("              SISTEMA DE BIBLIOTECA                 \n");
         printf("====================================================\n");
-        printf("Seja bem-vindo ao Sitema de Gestão de Bibliotecas.\n");
+        printf("Seja bem-vindo ao Sitema de Gestão de Bibliotecas.  \n");
         printf("----------------------------------------------------\n");
         printf("1. Cadastrar\n2. Login\n");
         printf("----------------------------------------------------\n-> ");
@@ -62,9 +63,8 @@ void menu_sistema() {
     int opcao = 0;
 
     while (1) {
-        system("clear");
-    
         // grande printf pra mostrar todo o menu
+        system("clear");
         printf("============================================\n");
         printf("          SISTEMA DE BIBLIOTECA             \n");
         printf("============================================\n");
@@ -72,7 +72,8 @@ void menu_sistema() {
         printf("--------------------------------------------\n");
         printf("1. Livros\n");
         printf("2. Emprestimos\n");
-        // somente adms tem acesso a opcao abaixo
+
+        // printf que somente adms tem acesso a opcao abaixo
         if (usuario_logado->type == 1) {
             printf("3. [ADM] Gerenciar Livros\n");
             printf("4. [ADM] Gerenciar Usuários\n");
@@ -82,9 +83,9 @@ void menu_sistema() {
         printf("--------------------------------------------\n");
         printf("-> ");
 
-        // le uma entrada e ja verifica se é um numero inteiro
+        // le uma entrada e ja verifica se é uma entrada valida
         if (scanf("%d", &opcao) != 1) {
-            while (getchar() != '\n');
+            while (getchar() != '\n'); // limpa o buffer
             system("clear");
             printf("[!] Entrada inválida! Digite apenas números. [!]\n");
             printf("\nPressione [ENTER] para tentar novamente...");
@@ -112,11 +113,10 @@ void menu_sistema() {
         }
         // chama o submenu usuarios para adm se a entrada for 3
         else if (opcao == 3 && usuario_logado->type == 1) {
-            menu_livros_adm();
+            submenu_livros_adm();
         }
         // chama a submenu de usuarios se a entrada for 4
         else if (opcao == 4 && usuario_logado->type == 1) {
-            system("clear");
             submenu_usuarios();
         }
         // chama a listagem de logs se a entrada for 5
@@ -132,43 +132,23 @@ void menu_sistema() {
     }
 }
 
-int menu_logs() {
-    FILE *arquivo = fopen("../data/historico.log", "r");
-
-    if (arquivo == NULL) {
-        printf("Arquivo não localizado!");
-        return 0;
-    }
-
-    char linha[200];
-
-    while (fgets(linha, sizeof(linha), arquivo) != NULL) {
-        printf("%s", linha);
-    }
-
-    fclose(arquivo);
-
-    printf("Pressione [ENTER] para Voltar...");
-    getchar();
-    return 1;
-}
-
-// menu de livros, opção 1 do menu principal
+// submenu de livros, opção 1 do menu principal
 void submenu_livros() {
     int opcao = 0;
-
+    
     // grande printf da tela de menu de livros
     while (1) {
         system("clear");
         printf("=======================================\n");
-        printf("                LIVROS                 \n");
+        printf("          SISTEMA DE BIBLIOTECA        \n");
+        printf("          SUBMENU: LIVROS              \n");
         printf("=======================================\n");
         printf("1. Listar Livros Disponíveis\n");
         printf("2. Buscar Livro por Título\n");
         printf("0. Voltar ao Menu Principal\n");
         printf("---------------------------------------\n");
         printf("-> ");
-
+        
         // le uma entrada e ja verifica se é um numero inteiro
         if (scanf("%d", &opcao) != 1) {
             while (getchar() != '\n'); // limpa o buffer
@@ -179,7 +159,7 @@ void submenu_livros() {
             continue;
         }
         while (getchar() != '\n'); // limpa o buffer
-
+        
         // volta pro menu principal se inserir 0
         if (opcao == 0) {
             break; 
@@ -201,10 +181,10 @@ void submenu_livros() {
     }
 }
 
-// menu de emprestimo, opção 2 do menu principal
+// submenu de emprestimo, opção 2 do menu principal
 void submenu_emprestimos() { 
     int opcao = 0;
-
+    
     // grande printf da tela de emprestimos
     while (1) {
         system("clear");
@@ -218,7 +198,7 @@ void submenu_emprestimos() {
         printf("0. Voltar ao Menu Principal\n");
         printf("---------------------------------------\n");
         printf("-> ");
-
+        
         // coleta a opção inserida e ja verifica se foi inserido um num inteiro
         if (scanf("%d", &opcao) != 1) {
             while (getchar() != '\n'); 
@@ -229,7 +209,7 @@ void submenu_emprestimos() {
             continue;
         }
         while (getchar() != '\n'); // limpa o buffer
-
+        
         // voltar pro menu principal se for digitar 0
         if (opcao == 0) {
             break; 
@@ -255,10 +235,51 @@ void submenu_emprestimos() {
     }
 }
 
-// menu de gestão de usuarios, opção 4 do menu principal
+// submenu de gerenciar livros, opção 3 do menu principal
+void submenu_livros_adm() {
+    int opcao = 0;
+
+    while (1) {
+        system("clear");
+        printf("===============================================\n");
+        printf("            SISTEMA DE BIBLIOTECA              \n");
+        printf("            SUBMENU: GERENCIAR LIVROS          \n");
+        printf("===============================================\n");
+        printf("1. Cadastrar livro\n");
+        printf("2. Editar livro\n");
+        printf("3. Remover livro\n");
+        printf("0. Voltar\n");
+        printf("-----------------------------------------------\n-> ");
+
+        if (scanf("%d", &opcao) != 1) {
+            while (getchar() != '\n');
+            printf("\n[!] Digite apenas números! [!]\n");
+            printf("\nPressione [ENTER] para continuar...");
+            getchar();
+            continue;
+        }
+        while (getchar() != '\n');
+
+        if (opcao == 0) {
+            break;
+        } else if (opcao == 1) {
+            cadastrar_livro();
+        } else if (opcao == 2) {
+            editar_livro();
+        } else if (opcao == 3) {
+            remover_livro();
+        } else {
+            printf("\n[!] Opção inválida! [!]\n");
+            printf("\nPressione [ENTER] para continuar...");
+            getchar();
+        }
+    }
+}
+
+// submenu de gestão de usuarios, opção 4 do menu principal
 void submenu_usuarios() {
     int opcao;
-
+    
     do {
         // grande printf so submenu de usuarios
         system("clear");
@@ -274,56 +295,77 @@ void submenu_usuarios() {
         printf("0. Voltar ao Menu Principal\n");
         printf("======================================\n");
         printf("-> ");
-
+        
         // Le e ja verifica se a entrada é valida
         if (scanf("%d", &opcao) != 1) {
             while (getchar() != '\n'); // limpa o buffer
         } else {
             while (getchar() != '\n'); // limpa o buffer
         }
-
+        
         // processamento da opção escolhida
         switch (opcao) {
             // se escolher 1 abre a tela de cadastro
             case 1:
-                cadastro();
-                break;
+            cadastro();
+            break;
             // lista todos os usuarios
             case 2:
-                listagem(); 
-                break;
+            listagem(); 
+            break;
             // opção 2 em desenvolvimento
             case 3:
-                system("clear");
-                printf("\n[INFO] Opcao 'Buscar Operador por Login' em desenvolvimento...\n");
-                printf("\nPressione [ENTER] para voltar...");
-                getchar();
-                break;
+            system("clear");
+            printf("\n[INFO] Opcao 'Buscar Operador por Login' em desenvolvimento...\n");
+            printf("\nPressione [ENTER] para voltar...");
+            getchar();
+            break;
             // opção 4 em desenvolvimento
             case 4:
-                system("clear");
-                printf("\n[INFO] Opcao 'Alterar Privilegio/Senha' em desenvolvimento...\n");
-                printf("\nPressione [ENTER] para voltar...");
-                getchar();
-                break;
+            system("clear");
+            printf("\n[INFO] Opcao 'Alterar Privilegio/Senha' em desenvolvimento...\n");
+            printf("\nPressione [ENTER] para voltar...");
+            getchar();
+            break;
             // opção 5 em desenvolvimento
             case 5:
-                system("clear");
-                printf("\n[INFO] Opcao 'Remover Operador' em desenvolvimento...\n");
-                printf("\nPressione [ENTER] para voltar...");
-                getchar();
-                break;
+            system("clear");
+            printf("\n[INFO] Opcao 'Remover Operador' em desenvolvimento...\n");
+            printf("\nPressione [ENTER] para voltar...");
+            getchar();
+            break;
             // opção 0 volta pra o menu principal
             case 0:
-                printf("\nVoltando ao menu principal...\n");
-                break;
+            printf("\nVoltando ao menu principal...\n");
+            break;
             // caso a entrada nao seja valida
             default:
-                system("clear");
-                printf("\n[ERRO] Opcao invalida! Tente novamente.\n");
-                printf("\nPressione [ENTER] para continuar...");
-                getchar();
-                break;
+            system("clear");
+            printf("\n[ERRO] Opcao invalida! Tente novamente.\n");
+            printf("\nPressione [ENTER] para continuar...");
+            getchar();
+            break;
         }
     } while (opcao != 0);
+}
+
+int menu_logs() {
+    FILE *arquivo = fopen("../data/historico.log", "r");
+
+    if (arquivo == NULL) {
+        printf("Arquivo não localizado!");
+        return 0;
+    }
+
+    char linha[200];
+
+    while (fgets(linha, sizeof(linha), arquivo) != NULL) {
+        printf("%s", linha);
+    }
+
+    fclose(arquivo);
+
+    printf("Pressione [ENTER] para Voltar...");
+    getchar();
+    return 1;
 }

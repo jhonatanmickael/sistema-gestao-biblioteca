@@ -5,12 +5,12 @@
 #include <ctype.h>
 #include "relatorios.h"
 
-Usuario armazenar[100];
-Usuario *usuario_logado = NULL;
+Usuario armazenar[100]; // maximo de contas criadas
+Usuario *usuario_logado = NULL; // forçando o ponteiro a iniciar desconectado de uma conta
 
 int totalusuarios = 0;
 
-// Função que definir o id 1 para conta root
+// definindo o id 1 para uma conta root
 void inicializar_sistema () {
     armazenar[0].id = 1;
     strcpy(armazenar[0].username, "root");
@@ -23,7 +23,7 @@ void inicializar_sistema () {
     armazenar_usuarios(&armazenar[0]);
 }
 
-// Função para cadastrar novos usuarios
+// tela de cadastro de usuario
 int cadastro() {
     char username_auth[50];
 
@@ -254,26 +254,28 @@ int login() {
 // Função para listar todos os livros
 void listagem () {
     system("clear");
-    printf("=====================================================\n");
-    printf("                LISTA DE UTILIZADORES                \n");
-    printf("=====================================================\n");
-
-    if (totalusuarios == 0) {
-        printf("\n[!] Não há utilizadores cadastrados no sistema. [!]\n");
-    } else {
-        printf("%-4s | %-25s | %-15s\n", "ID", "NOME", "USERNAME");
-        printf("-----------------------------------------------------\n");
-        for (int i = 0; i < totalusuarios; i++) {
-            printf("%-04d | %-25.25s | %-15.15s\n",
+    printf("================================================================================\n");
+    printf("                              SISTEMA DE BIBLIOTECA                             \n");
+    printf("                              ->  LISTA DE USUÁRIOS                             \n");
+    printf("================================================================================\n");
+    printf("%-4s | %-25s | %-15s | %-15s\n", "ID", "NOME", "USERNAME", "ACESSO");
+    printf("--------------------------------------------------------------------------------\n");
+    
+    for (int i = 0; i < totalusuarios; i++) {
+        if (armazenar[i].active == 1) { 
+            printf("%-04d | %-25.25s | %-15.15s | %s\n",
                    armazenar[i].id,
                    armazenar[i].name,
-                   armazenar[i].username);
+                   armazenar[i].username,
+                   (armazenar[i].type == 1 ? "Administrador" : "Leitor Comum"));
         }
     }
-    printf("=====================================================\n");
+
+    printf("================================================================================\n");
 
     printf("\nPressione [ENTER] para voltar ao menu...");
     getchar();
+    system("clear");
 }
 
 // Verifica se um username ja existe
