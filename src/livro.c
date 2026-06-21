@@ -4,7 +4,7 @@
 #include "livro.h"
 #include "menu.h"
 
-// Criando o local pra alocação dos livros
+// Criando o local pra alocação dos livrosz
 Livro acervo[100];
 int totallivros = 0;
 
@@ -13,40 +13,50 @@ void inicializar_livros() {
     if (carregar_livros() > 0) {
         return;
     }
-
-    char titulos[20][100] = {
-        "O Senhor dos Aneis", "1984", "Dom Casmurro", "O Pequeno Principe", "O Hobbit",
-        "Fahrenheit 451", "Admiravel Mundo Novo", "A Revolucao dos Bichos", "O Alquimista", "O Codigo Da Vinci",
-        "Moby Dick", "Guerra e Paz", "Ulysses", "O Grande Gatsby", "Cem Anos de Solidao",
-        "Crime e Castigo", "O Retrato de Dorian Gray", "Dracula", "Frankenstein", "Grande Sertao: Veredas"
-    };
-
-    char autores[20][100] = {
-        "J.R.R. Tolkien", "George Orwell", "Machado de Assis", "Antoine de Saint-Exupery", "J.R.R. Tolkien",
-        "Ray Bradbury", "Aldous Huxley", "George Orwell", "Paulo Coelho", "Dan Brown",
-        "Herman Melville", "Leo Tolstoy", "James Joyce", "F. Scott Fitzgerald", "Gabriel Garcia Marquez",
-        "Fyodor Dostoevsky", "Oscar Wilde", "Bram Stoker", "Mary Shelley", "Guimaraes Rosa"
-    };
-
-    char generos[20][50] = {
-        "Fantasia", "Distopia", "Romance", "Infanto-Juvenil", "Fantasia",
-        "Ficcao Cientifica", "Distopia", "Satira Politica", "Filosofia", "Suspense",
-        "Aventura", "Romance Historico", "Modernismo", "Classico", "Realismo Magico",
-        "Romance Psicologico", "Ficcao Gotica", "Terror", "Terror Ficcao", "Literatura Brasileira"
-    };
-
-    // 20 livros no vetor acervo
-    for (int i = 0; i < 20; i++) {
-        acervo[i].id = i + 1; // IDs de 1 a 20
-        strcpy(acervo[i].titulo, titulos[i]);
-        strcpy(acervo[i].autor, autores[i]);
-        strcpy(acervo[i].genero, generos[i]);
-        acervo[i].quantidade = 3; // Cada livro começa com 3 copias
-        acervo[i].active = 1;     // Todos começam ativos
+    FILE *file = fopen("../data/livros_iniciais.csv", "r");
+    if (file == NULL) {
+        return;
+    }
+    Livro livro_tmp;
+    char linha[300];
+    if (fgets(linha, sizeof(linha), file) == NULL) {
+        fclose(file);
+        return;
     }
 
-    totallivros = 20; // Atualiza o contador do sistema para 20
-    armazenar_livros(); // Salva a lista inicial
+    while (fgets(linha, sizeof(linha), file) != NULL) {
+        if (totallivros >= 100) {
+            break;
+        }
+        char *token = strtok(linha, ",\n");
+        if (token != NULL) {
+            livro_tmp.id = atoi(token);
+            token = strtok(NULL, ",\n");
+            if (token != NULL) {
+                strcpy(livro_tmp.titulo, token);
+                token = strtok(NULL, ",\n");
+                if (token != NULL) {
+                    strcpy(livro_tmp.autor, token);
+                    token = strtok(NULL, ",\n");
+                    if (token != NULL) {
+                        strcpy(livro_tmp.genero, token);
+                        token = strtok(NULL, ",\n");
+                        if (token != NULL) {
+                            livro_tmp.quantidade = atoi(token);
+                            token = strtok(NULL, ",\n");
+                            if (token != NULL) {
+                                livro_tmp.active = atoi(token);
+                                acervo[totallivros] = livro_tmp;
+                                totallivros++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    fclose(file);
+    armazenar_livros();
 }
 
 // lista os livros ativos no sistema

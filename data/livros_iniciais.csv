@@ -1,0 +1,101 @@
+id,titulo,autor,genero,quantidade,active
+1,O Senhor dos Aneis,J.R.R. Tolkien,Fantasia,3,1
+2,1984,George Orwell,Distopia,3,1
+3,Dom Casmurro,Machado de Assis,Romance,3,1
+4,O Pequeno Principe,Antoine de Saint-Exupery,Infanto-Juvenil,3,1
+5,O Hobbit,J.R.R. Tolkien,Fantasia,3,1
+6,Fahrenheit 451,Ray Bradbury,Ficcao Cientifica,3,1
+7,Admiravel Mundo Novo,Aldous Huxley,Distopia,3,1
+8,A Revolucao dos Bichos,George Orwell,Satira Politica,3,1
+9,O Alquimista,Paulo Coelho,Filosofia,3,1
+10,O Codigo Da Vinci,Dan Brown,Suspense,3,1
+11,Moby Dick,Herman Melville,Aventura,3,1
+12,Guerra e Paz,Leo Tolstoy,Romance Historico,3,1
+13,Ulysses,James Joyce,Modernismo,3,1
+14,O Grande Gatsby,F. Scott Fitzgerald,Classico,3,1
+15,Cem Anos de Solidao,Gabriel Garcia Marquez,Realismo Magico,3,1
+16,Crime e Castigo,Fyodor Dostoevsky,Romance Psicologico,3,1
+17,O Retrato de Dorian Gray,Oscar Wilde,Ficcao Gotica,3,1
+18,Dracula,Bram Stoker,Terror,3,1
+19,Frankenstein,Mary Shelley,Terror Ficcao,3,1
+20,Grande Sertao: Veredas,Guimaraes Rosa,Literatura Brasileira,3,1
+21,A Divina Comedia,Dante Alighieri,Poesia Epica,3,1
+22,A Iliada,Homero,Epopeia,3,1
+23,A Odisseia,Homero,Epopeia,3,1
+24,Os Miseraveis,Victor Hugo,Romance Historico,3,1
+25,Notre Dame de Paris,Victor Hugo,Romance Gotico,3,1
+26,O Conde de Monte Cristo,Alexandre Dumas,Aventura,3,1
+27,Os Tres Mosqueteiros,Alexandre Dumas,Aventura,3,1
+28,Robinson Crusoe,Daniel Defoe,Aventura,3,1
+29,Viagens de Gulliver,Jonathan Swift,Satira,3,1
+30,Orgulho e Preconceito,Jane Austen,Romance,3,1
+31,Razao e Sensibilidade,Jane Austen,Romance,3,1
+32,Jane Eyre,Charlotte Bronte,Romance Gotico,3,1
+33,O Morro dos Ventos Uivantes,Emily Bronte,Romance Gotico,3,1
+34,Oliver Twist,Charles Dickens,Romance Social,3,1
+35,David Copperfield,Charles Dickens,Romance,3,1
+36,Grandes Esperancas,Charles Dickens,Romance,3,1
+37,Um Conto de Duas Cidades,Charles Dickens,Romance Historico,3,1
+38,A Metamorfose,Franz Kafka,Ficcao Filosofica,3,1
+39,O Processo,Franz Kafka,Ficcao Filosofica,3,1
+40,O Castelo,Franz Kafka,Ficcao Filosofica,3,1
+41,Anna Karenina,Leo Tolstoy,Romance,3,1
+42,A Morte de Ivan Ilitch,Leo Tolstoy,Novela,3,1
+43,Os Irmaos Karamazov,Fyodor Dostoevsky,Romance Filosofico,3,1
+44,O Idiota,Fyodor Dostoevsky,Romance Psicologico,3,1
+45,Memorias do Subsolo,Fyodor Dostoevsky,Novela Filosofica,3,1
+46,O Estrangeiro,Albert Camus,Romance Filosofico,3,1
+47,A Peste,Albert Camus,Romance Filosofico,3,1
+48,O Mito de Sisifo,Albert Camus,Filosofia,3,1
+49,O Velho e o Mar,Ernest Hemingway,Novela,3,1
+50,Por Quem os Sinos Dobram,Ernest Hemingway,Romance,3,1
+51,As Vinhas da Ira,John Steinbeck,Romance Social,3,1
+52,Ratos e Homens,John Steinbeck,Novela,3,1
+53,O Apanhador no Campo de Centeio,J D Salinger,Romance,3,1
+54,Matadouro Cinco,Kurt Vonnegut,Ficcao Cientifica,3,1
+55,Duna,Frank Herbert,Ficcao Cientifica,3,1
+56,Fundacao,Isaac Asimov,Ficcao Cientifica,3,1
+57,Eu Robo,Isaac Asimov,Ficcao Cientifica,3,1
+58,Neuromancer,William Gibson,Cyberpunk,3,1
+59,Androides Sonham com Ovelhas Eletricas,Philip K Dick,Ficcao Cientifica,3,1
+60,O Homem do Castelo Alto,Philip K Dick,Ficcao Cientifica,3,1
+61,A Mao Esquerda da Escuridao,Ursula K Le Guin,Ficcao Cientifica,3,1
+62,Os Despossuidos,Ursula K Le Guin,Ficcao Cientifica,3,1
+63,Terra Sonambula,Mia Couto,Romance,3,1
+64,Ensaio Sobre a Cegueira,Jose Saramago,Romance,3,1
+65,O Evangelho Segundo Jesus Cristo,Jose Saramago,Romance,3,1
+66,Memorial do Convento,Jose Saramago,Romance Historico,3,1
+67,O Nome da Rosa,Umberto Eco,Romance Historico,3,1
+68,O Leopardo,Giuseppe Tomasi di Lampedusa,Romance Historico,3,1
+69,O Principe,Nicolau Maquiavel,Filosofia Politica,3,1
+70,A Republica,Platao,Filosofia,3,1
+71,Etica a Nicomaco,Aristoteles,Filosofia,3,1
+72,Meditacoes,Marco Aurelio,Filosofia,3,1
+73,Assim Falou Zaratustra,Friedrich Nietzsche,Filosofia,3,1
+74,A Genealogia da Moral,Friedrich Nietzsche,Filosofia,3,1
+75,O Mundo de Sofia,Jostein Gaarder,Filosofia,3,1
+76,Capitaes da Areia,Jorge Amado,Literatura Brasileira,3,1
+77,Gabriela Cravo e Canela,Jorge Amado,Literatura Brasileira,3,1
+78,Dona Flor e Seus Dois Maridos,Jorge Amado,Literatura Brasileira,3,1
+79,Tieta do Agreste,Jorge Amado,Literatura Brasileira,3,1
+80,Vidas Secas,Graciliano Ramos,Literatura Brasileira,3,1
+81,Sao Bernardo,Graciliano Ramos,Literatura Brasileira,3,1
+82,Angustia,Graciliano Ramos,Literatura Brasileira,3,1
+83,Memorias do Carcere,Graciliano Ramos,Memorias,3,1
+84,Iracema,Jose de Alencar,Literatura Brasileira,3,1
+85,O Guarani,Jose de Alencar,Literatura Brasileira,3,1
+86,Senhora,Jose de Alencar,Literatura Brasileira,3,1
+87,Lucíola,Jose de Alencar,Literatura Brasileira,3,1
+88,Macunaima,Mario de Andrade,Modernismo Brasileiro,3,1
+89,Pauliceia Desvairada,Mario de Andrade,Poesia Brasileira,3,1
+90,Memorias Sentimentais de Joao Miramar,Oswald de Andrade,Modernismo Brasileiro,3,1
+91,Triste Fim de Policarpo Quaresma,Lima Barreto,Literatura Brasileira,3,1
+92,Clara dos Anjos,Lima Barreto,Literatura Brasileira,3,1
+93,O Cortico,Aluisio Azevedo,Naturalismo Brasileiro,3,1
+94,Casa de Pensao,Aluisio Azevedo,Naturalismo Brasileiro,3,1
+95,A Escrava Isaura,Bernardo Guimaraes,Literatura Brasileira,3,1
+96,Quarto de Despejo,Carolina Maria de Jesus,Diario,3,1
+97,A Hora da Estrela,Clarice Lispector,Literatura Brasileira,3,1
+98,Perto do Coracao Selvagem,Clarice Lispector,Literatura Brasileira,3,1
+99,Lacos de Familia,Clarice Lispector,Contos,3,1
+100,Morte e Vida Severina,Joao Cabral de Melo Neto,Poesia Brasileira,3,1
